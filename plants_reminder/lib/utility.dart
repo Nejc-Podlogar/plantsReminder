@@ -4,16 +4,16 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class Utility {
-  static String serverIP = "127.0.0.1";
-  static int serverPort = 5436;
+  static const String serverIP = "127.0.0.1";
+  static const int serverPort = 5436;
   static String serverUrl = serverIP + ":" + serverPort.toString();
 
-  static String login = "/login";
-  static String registration = "/registration";
+  static const String login = "/login";
+  static const String registration = "/registration";
 
-  static Future<void> httpPostRequest() async {
+  static Future<void> httpPostRequest(String method) async {
     final response = await http.post(
-      Uri.http(serverUrl, login),
+      Uri.http(serverUrl, method),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -23,7 +23,17 @@ class Utility {
     );
 
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+      switch (method) {
+        case login:
+          {}
+          break;
+
+        case registration:
+          {}
+          break;
+      }
+
+      // print(jsonDecode(response.body));
     }
   }
 }
