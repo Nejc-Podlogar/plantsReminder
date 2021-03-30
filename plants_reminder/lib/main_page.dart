@@ -14,16 +14,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  int _selectedIndex = 0;
-
-  CalendarController _controller;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _controller = CalendarController();
-  }
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,74 +30,49 @@ class _MainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Plants reminder'),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () {
-                    // print("Settings");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Settings()),
-                    );
-                  }),
-            ),
-          ],
-        ),
-        body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TableCalendar(
-                  calendarStyle: CalendarStyle(
-                      todayColor: Colors.green,
-                      selectedColor: Theme.of(context).primaryColor,
-                      todayStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          color: Colors.white)),
-                  headerStyle: HeaderStyle(
-                    formatButtonDecoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1,
-                              color: Colors.black,
-                              style: BorderStyle.solid)),
-                    ),
-                    formatButtonTextStyle: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                  calendarController: _controller)
-              // _navigationItems.elementAt(_selectedIndex),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Plants reminder'),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  // print("Settings");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings()),
+                  );
+                }),
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0,
-          onTap: _onItemTapped,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: 'Messages',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
+        ],
+      ),
+      body: Center(
+        child: _navigationItems.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        onTap: _onItemTapped,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home,
+                color: _selectedIndex == 0 ? Colors.blue : Colors.black),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail,
+                color: _selectedIndex == 1 ? Colors.blue : Colors.black),
+            label: 'Messages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person,
+                color: _selectedIndex == 2 ? Colors.blue : Colors.black),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
