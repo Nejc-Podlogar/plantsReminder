@@ -1,23 +1,72 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from MariaDB_Base import MariaDB_Base
 
 app = Flask(__name__)
 CORS(app)
 
+base = MariaDB_Base()
+
 @app.route('/registration', methods=['POST'])
 def user_registration():
-
     ret = {}
-    ret['test'] = 'test'
+    try:
 
-    return jsonify(ret)
+        content = request.get_json()
+        username = content['username']
+        email = content['email']
+        password = content['password']
+
+        if (username is None or email is None or password is None):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (base.connect_to_database() is False):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (base.register(email, username, password)):
+            ret['success'] = True
+        else:
+            ret['success'] = False
+
+        base.close_connection()
+
+        return jsonify(ret)
+    except Exception as e:
+        print(e)
+        ret['success'] = False
+        return jsonify(ret)
+
 
 @app.route('/login', methods=['POST'])
 def user_login():
     ret = {}
-    ret['test'] = 'test'
+    try:
+        content = request.get_json()
+        username = content['username']
+        password = content['password']
 
-    return jsonify(ret)
+        if (username is None or password is None):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (base.connect_to_database() is False):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (base.login(username, password)):
+            ret['success'] = True
+        else:
+            ret['success'] = False
+
+        base.close_connection()
+
+        return jsonify(ret)
+    except Exception as e:
+        print(e)
+        ret['success'] = False
+        return jsonify(ret)
 
 
 if __name__ == "__main__":
