@@ -4,6 +4,7 @@ import 'package:plants_reminder/all_plants.dart';
 import 'package:plants_reminder/my_plants.dart';
 import 'package:plants_reminder/profile.dart';
 import 'package:plants_reminder/settings.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key key}) : super(key: key);
