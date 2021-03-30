@@ -25,14 +25,12 @@ def user_registration():
             ret['success'] = False
             return jsonify(ret)
 
-        if (base.register(email, username, password)):
-            ret['success'] = True
-        else:
-            ret['success'] = False
+        ret = base.register(email, username, password)
 
         base.close_connection()
 
         return jsonify(ret)
+
     except Exception as e:
         print(e)
         ret['success'] = False
@@ -55,10 +53,7 @@ def user_login():
             ret['success'] = False
             return jsonify(ret)
 
-        if (base.login(username, password)):
-            ret['success'] = True
-        else:
-            ret['success'] = False
+        ret = base.login(username, password)
 
         base.close_connection()
 

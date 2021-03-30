@@ -9,12 +9,12 @@ class MariaDB_Base:
 
     def connect_to_database(self):
         try:
-            conn = mariadb.connect(
+            self.conn = mariadb.connect(
                 user="root",
                 password="admin123",
                 host=self.host,
                 port=self.port,
-                database="Plants_Reminder"
+                database="plantsreminder"
             )
 
         except mariadb.Error as e:
@@ -24,36 +24,51 @@ class MariaDB_Base:
         return True
     
     def register(self, email, username, password):
-        cur = conn.cursor()
+        ret = {}
+        cur = self.conn.cursor()
 
         try:
             cur.callproc('registerUser', (email, username, password, str(uuid.uuid4())))
+            self.conn.commit()
+            print("reg res:".format(cur.fetchall()))
         
         except mariadb.Error as e: 
             print("Napaka pri registraciji")
-            print("{}".format(e))
-            #cur.close()
-            return False
+            ret['success'] = False
+            if (e.errno == 1062):
+                ret['error'] = 'Uporabnik s tem uporabniškim imenom obstaja'
+            else:
+                ret['error'] = 'Napaka pri registraciji'
+            return ret
 
-        #cur.close()
-        return True
+        ret['success'] = True
+        return ret
 
 
     def login(self, username_or_email, password):
-        cur = conn.cursor()
+        ret = {}
+        cur = self.conn.cursor()
         try:
-            cur.callproc('loginUser', (username_or_email, password))
+            cur.callproc('loginUser', (username_or_email, password, 1))
+            #print("Fetch one: {}".format(cur.fetchone()))
+
+            proc_res = cur.fetchone()
+            if (len(proc_res) == 0 or proc_res[0] == 0):
+                ret['error'] = 'Uporabnik ni najden'
+                ret['success'] = False
+                return ret
         
         except mariadb.Error as e: 
             print("Napaka pri prijavi")
             print("{}".format(e))
-            #cur.close()
-            return False
+            ret['error'] = 'Napaka pri prijavi'
+            ret['success'] = False
+            return ret
 
         
-        #cur.close()
-        return True
+        ret['success'] = True
+        return ret
 
 
-    def close_connection():
-        conn.close()
+    def close_connection(self):
+        self.conn.close()
