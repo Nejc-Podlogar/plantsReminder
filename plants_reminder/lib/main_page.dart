@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -29,48 +29,49 @@ class _MainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Plants reminder'),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () {
-                    // print("Settings");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Settings()),
-                    );
-                  }),
-            ),
-          ],
-        ),
-        body: Center(
-          child: _navigationItems.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0,
-          onTap: _onItemTapped,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: 'Messages',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Plants reminder'),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  // print("Settings");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings()),
+                  );
+                }),
+          ),
+        ],
+      ),
+      body: Center(
+        child: _navigationItems.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        onTap: _onItemTapped,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home,
+                color: _selectedIndex == 0 ? Colors.blue : Colors.black),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail,
+                color: _selectedIndex == 1 ? Colors.blue : Colors.black),
+            label: 'Messages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person,
+                color: _selectedIndex == 2 ? Colors.blue : Colors.black),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
