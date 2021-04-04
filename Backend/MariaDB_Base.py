@@ -69,6 +69,70 @@ class MariaDB_Base:
         ret['success'] = True
         return ret
 
+    def allUserPlants(self, user_id):
+        ret= {}
+        cur = self.conn.cursor()
+        try:
+            sql = "Select * from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.id = {}".format(int(user_id))
+            cur.execute(sql)
+
+            ret['success'] = True
+
+            plants = []
+            for res in cur:
+                plant = {}
+                plant['id'] = res[0]
+                plant['name'] = res[1]
+                plant['latin_name'] = res[2]
+                plant['description'] = res[3]
+                plant['watering_period'] = res[4]
+                plant['watering_amount'] = res[5]
+                plant['link_wiki'] = res[6]
+                plant['link_slika'] = res[7]
+                plants.append(plant)
+
+            ret['plants'] = plants
+            return ret
+
+        except mariadb.Error as e: 
+            print("Napaka pri pridobivanju rastlin")
+            print("{}".format(e))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
+
+    def allPlants(self):
+        ret= {}
+        cur = self.conn.cursor()
+        try:
+            sql = "SELECT * From plants"
+
+            cur.execute("sql")
+
+            plants=[]
+
+            for res in cur:
+                plant = {}
+                plant['id'] = res[0]
+                plant['name'] = res[1]
+                plant['latin_name'] = res[2]
+                plant['description'] = res[3]
+                plant['watering_period'] = res[4]
+                plant['watering_amount'] = res[5]
+                plant['link_wiki'] = res[6]
+                plant['link_slika'] = res[7]
+                plants.append(plant)
+
+            ret['plants'] = plants
+            return ret
+
+        except mariadb.Error as e: 
+            print("Napaka pri pridobivanju rastlin")
+            print("{}".format(e))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
 
     def close_connection(self):
         self.conn.close()
