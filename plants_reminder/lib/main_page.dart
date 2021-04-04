@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:plants_reminder/all_plants.dart';
 import 'package:plants_reminder/my_plants.dart';

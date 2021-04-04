@@ -11,6 +11,7 @@ class Utility {
   static const String login = "/login";
   static const String registration = "/registration";
   static const String allPlants = "/allPlants";
+  static const String allUserPlants = "/allUserPlants";
 
   static Future<void> httpPostRequest(String method) async {
     final response = await http.post(
@@ -52,6 +53,10 @@ class Utility {
     if (response.statusCode == 200) {
       switch (method) {
         case allPlants:
+          {}
+          break;
+
+        case allUserPlants:
           {}
           break;
       }
