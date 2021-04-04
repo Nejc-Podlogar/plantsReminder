@@ -63,6 +63,31 @@ def user_login():
         ret['success'] = False
         return jsonify(ret)
 
+@app.route('/allPlants', methods=['POST'])
+def all_plants():
+    ret = {}
+    try:
+        content = request.get_json()
+        username = content['id']
+
+        if (username is None):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (base.connect_to_database() is False):
+            ret['success'] = False
+            return jsonify(ret)
+
+        ret = base.allPlants(username)
+
+        base.close_connection()
+
+        return jsonify(ret)
+
+    except Exception as e:
+        print(e)
+        ret['success'] = False
+        return jsonify(ret)
 
 if __name__ == "__main__":
     app.run("127.0.0.1", 5436, True)

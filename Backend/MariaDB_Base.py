@@ -69,6 +69,34 @@ class MariaDB_Base:
         ret['success'] = True
         return ret
 
+    def allPlants(self, user):
+        ret= {}
+        cur = self.conn.cursor()
+        try:
+            cur.callproc('')
+
+            proc_res = cur.fetchall()
+
+            ret['success'] = True
+
+            plants = []
+            for res in proc_res:
+                plant = {}
+                plant['name'] = res[0]
+                plant['description'] = res[1]
+                plant['image'] = res[2]
+                plant['lat_name'] = res[3]
+                plants.append(plant)
+
+            return ret
+
+        except mariadb.Error as e: 
+            print("Napaka pri pridobivanju rastlin")
+            print("{}".format(e))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
 
     def close_connection(self):
         self.conn.close()

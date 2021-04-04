@@ -10,6 +10,7 @@ class Utility {
 
   static const String login = "/login";
   static const String registration = "/registration";
+  static const String allPlants = "/allPlants";
 
   static Future<void> httpPostRequest(String method) async {
     final response = await http.post(
@@ -29,6 +30,28 @@ class Utility {
           break;
 
         case registration:
+          {}
+          break;
+      }
+
+      // print(jsonDecode(response.body));
+    }
+  }
+
+  static Future<void> httGetRequest(String method) async {
+    final response = await http.get(
+      Uri.http(serverUrl, method),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      // body: jsonEncode(<String, String>{
+      //   'title': title,
+      // }),
+    );
+
+    if (response.statusCode == 200) {
+      switch (method) {
+        case allPlants:
           {}
           break;
       }
