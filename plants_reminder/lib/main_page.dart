@@ -47,9 +47,7 @@ class _MainPage extends State<MainPage> {
           ),
         ],
       ),
-      body: Center(
-        child: _navigationItems.elementAt(_selectedIndex),
-      ),
+      body: _navigationItems.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         onTap: _onItemTapped,

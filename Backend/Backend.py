@@ -97,7 +97,7 @@ def all_plants():
             ret['success'] = False
             return jsonify(ret)
 
-        ret = base.allPlants(username)
+        ret = base.allPlants()
 
         base.close_connection()
 

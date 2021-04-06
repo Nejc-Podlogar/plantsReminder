@@ -39,7 +39,7 @@ class Utility {
     }
   }
 
-  static Future<void> httGetRequest(String method) async {
+  static Future<List<dynamic>> httpGetRequest(String method) async {
     final response = await http.get(
       Uri.http(serverUrl, method),
       headers: <String, String>{
@@ -53,7 +53,14 @@ class Utility {
     if (response.statusCode == 200) {
       switch (method) {
         case allPlants:
-          {}
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+            // if (res['success'] == true) {
+            //   return res['plants'];
+            // }
+            return res['plants'];
+            // print(response.body);
+          }
           break;
 
         case allUserPlants:

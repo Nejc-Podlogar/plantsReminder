@@ -106,9 +106,9 @@ class MariaDB_Base:
         ret= {}
         cur = self.conn.cursor()
         try:
-            sql = "SELECT * From plants"
+            sql = "Select * from plants"
 
-            cur.execute("sql")
+            cur.execute(sql)
 
             plants=[]
 
@@ -129,7 +129,7 @@ class MariaDB_Base:
 
         except mariadb.Error as e: 
             print("Napaka pri pridobivanju rastlin")
-            print("{}".format(e))
+            print("{}".format(str(e)))
             ret['error'] = 'Napaka pri pridobivanju rastlin'
             ret['success'] = False
             return ret
