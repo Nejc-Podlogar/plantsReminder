@@ -69,11 +69,11 @@ class MariaDB_Base:
         ret['success'] = True
         return ret
 
-    def allUserPlants(self, user_id):
+    def allUserPlants(self, username):
         ret= {}
         cur = self.conn.cursor()
         try:
-            sql = "Select * from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.id = {}".format(int(user_id))
+            sql = "Select * from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.username = '{}'".format(str(username))
             cur.execute(sql)
 
             ret['success'] = True

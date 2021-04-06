@@ -64,11 +64,11 @@ def user_login():
         return jsonify(ret)
 
 @app.route('/allUserPlants', methods=['GET'])
-def all_plants():
+def all_user_plants():
     ret = {}
     try:
         content = request.get_json()
-        username = content['id']
+        username = content['username']
 
         if (username is None):
             ret['success'] = False
