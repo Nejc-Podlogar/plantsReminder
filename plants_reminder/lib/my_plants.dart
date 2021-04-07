@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:flip_card/flip_card.dart';
+import 'package:plants_reminder/utility.dart';
+import 'package:plants_reminder/circular_progress_indicator.dart';
 
 class MyPlants extends StatefulWidget {
   const MyPlants({Key key}) : super(key: key);
@@ -9,73 +10,139 @@ class MyPlants extends StatefulWidget {
   State createState() => _MyPlants();
 }
 
-class _MyPlants extends State<MyPlants> {
+class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
   CalendarController _controller;
+  TabController _nestedTabController;
+  List<dynamic> _items;
+  bool loading;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller = CalendarController();
+    _nestedTabController = new TabController(length: 2, vsync: this);
+    setState(() {
+      loading = true;
+    });
+    getItems();
+  }
+
+  void getItems() async {
+    _items = await Utility.httpPostRequest(Utility.allUserPlants);
+    print(_items.length);
+
+    await Future.delayed(const Duration(milliseconds: 1000));
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    double dWidth = MediaQuery.of(context).size.width;
-    double dHeight = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          TableCalendar(
-              calendarStyle: CalendarStyle(
-                  todayColor: Colors.green,
-                  selectedColor: Theme.of(context).primaryColor,
-                  todayStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      color: Colors.white)),
-              headerStyle: HeaderStyle(
-                formatButtonDecoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          width: 1,
-                          color: Colors.black,
-                          style: BorderStyle.solid)),
-                ),
-                formatButtonTextStyle: TextStyle(
-                  fontSize: 12.0,
-                ),
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    return loading == false
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              TabBar(
+                controller: _nestedTabController,
+                indicatorColor: Colors.orange,
+                labelColor: Colors.orange,
+                unselectedLabelColor: Colors.black54,
+                isScrollable: true,
+                tabs: <Widget>[
+                  Tab(
+                    text: "Koledar",
+                  ),
+                  Tab(
+                    text: "Moje rastline",
+                  ),
+                ],
               ),
-              calendarController: _controller),
-          Text(
-            "Moje rastline:",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-            ),
-          ),
-          Container(
-            child: Text("Pozdrav"),
+              Container(
+                height: screenHeight * 0.80,
+                margin: EdgeInsets.only(left: 16.0, right: 16.0),
+                child: TabBarView(
+                  controller: _nestedTabController,
+                  children: <Widget>[
+                    Container(
+                        child: TableCalendar(
+                            calendarStyle: CalendarStyle(
+                                todayColor: Colors.green,
+                                selectedColor: Theme.of(context).primaryColor,
+                                todayStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                    color: Colors.white)),
+                            headerStyle: HeaderStyle(
+                              formatButtonDecoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 1,
+                                        color: Colors.black,
+                                        style: BorderStyle.solid)),
+                              ),
+                              formatButtonTextStyle: TextStyle(
+                                fontSize: 12.0,
+                              ),
+                            ),
+                            calendarController: _controller)),
+                    Container(
+                      child: GridView.count(
+                        scrollDirection: Axis.vertical,
+                        crossAxisCount: 2,
+                        children: List.generate(_items.length, (index) {
+                          return Card(
+                            child: InkWell(
+                              splashColor: Colors.blue.withAlpha(30),
+                              child: Container(
+                                width: screenWidth * 0.50 - 50,
+                                height: 600,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      child: Image.asset(
+                                          "/logo/App_logoJPG.jpg",
+                                          width: screenWidth * 0.50 - 50),
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                      child: Text(
+                                        _items[index]["name"],
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                      child: Text(
+                                        _items[index]["watering_period"]
+                                            .toString(),
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(fontSize: 12.0),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           )
-          // _navigationItems.elementAt(_selectedIndex),
-        ],
-      ),
-    );
+        : CustomCircularProgressIndicator();
   }
 }
-
-Widget _buildGrid(double dWidth) => GridView.extent(
-      maxCrossAxisExtent: 150,
-      padding: const EdgeInsets.all(4),
-      mainAxisSpacing: 4,
-      crossAxisSpacing: 4,
-      children: _buildGridTileList(5, dWidth),
-    );
-
-List<Container> _buildGridTileList(int count, double dWidth) => List.generate(
-    count,
-    (i) => Container(
-          child: Text("Test"),
-        ));

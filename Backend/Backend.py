@@ -63,7 +63,7 @@ def user_login():
         ret['success'] = False
         return jsonify(ret)
 
-@app.route('/allUserPlants', methods=['GET'])
+@app.route('/allUserPlants', methods=['POST'])
 def all_user_plants():
     ret = {}
     try:
