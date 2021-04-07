@@ -89,9 +89,11 @@ CREATE TABLE `users` (
   `password` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `hash` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `polje_id` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `polje_id` (`polje_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,7 +103,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'test','test','test@test.com','241551353'),(2,'test2','test','test','6534534');
+INSERT INTO `users` VALUES (1,'test','test','test@test.com','241551353','sadasdXY3783718x'),(2,'test2','test','test','6534534','sadasdXY3783718y');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,11 +149,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `registerUser`(
 	IN `email1` VARCHAR(45),
 	IN `username1` VARCHAR(45),
 	IN `geslo1` VARCHAR(64),
-	IN `hash1` VARCHAR(45)
+	IN `hash1` VARCHAR(45),
+	IN `polje_id1` VARCHAR(45)
 )
 BEGIN
 
-INSERT INTO users (username, password, email, hash) VALUES (username1, cast(sha2(CONCAT(hash1, geslo1), 256) as char), email1, hash1);
+INSERT INTO users (username, password, email, hash, polje_id) VALUES (username1, cast(sha2(CONCAT(hash1, geslo1), 256) as char), email1, hash1, polje_id1);
 
 END ;;
 DELIMITER ;
@@ -169,4 +172,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07 19:11:15
+-- Dump completed on 2021-04-07 22:09:10
