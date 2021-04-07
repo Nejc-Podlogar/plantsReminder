@@ -20,7 +20,6 @@ class _Profile extends State<Profile> {
   String email = 'plants_user@gmail.com';
   int numb_of_plants = 5;
 
-
   @override
   void initState() {
     super.initState();
@@ -90,104 +89,108 @@ class _Profile extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     //return ListView();
-    return Container(
+    return Center(
+      child: Container(
         //color: Colors.grey[800],
         child: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: CircleAvatar(
-                      radius: 55,
-                      //backgroundColor: Color(0xffFDCF09),
-                      backgroundColor: Colors.blue,
-                      child: _image != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.file(
-                                _image,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.fitHeight,
-                              ),
-                            )
-                          : Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(50)),
+          padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                  onTap: () {
+                    _showPicker(context);
+                  },
+                  child: CircleAvatar(
+                    radius: 55,
+                    //backgroundColor: Color(0xffFDCF09),
+                    backgroundColor: Colors.blue,
+                    child: _image != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.file(
+                              _image,
                               width: 100,
                               height: 100,
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.grey[800],
-                              ),
+                              fit: BoxFit.fitHeight,
                             ),
-                    )),
-                //CircleAvatar(
-                //  foregroundImage: NetworkImage(''), // TODO: lokalna slika pol
-                //  backgroundColor: Colors.blue,
-                //  radius: 40.0,
-                //),
-                SizedBox(height: 5.0),
-                //ElevatedButton(
-                //  child: Text("Click to add/change profile photo"),
-                //  onPressed: () {}, // TODO
-                //),
-                SizedBox(height: 30.0),
-                Text(
-                  "USERNAME:",
-                  style: TextStyle(
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(50)),
+                            width: 100,
+                            height: 100,
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                  )),
+              //CircleAvatar(
+              //  foregroundImage: NetworkImage(''), // TODO: lokalna slika pol
+              //  backgroundColor: Colors.blue,
+              //  radius: 40.0,
+              //),
+              SizedBox(height: 5.0),
+              //ElevatedButton(
+              //  child: Text("Click to add/change profile photo"),
+              //  onPressed: () {}, // TODO
+              //),
+              SizedBox(height: 30.0),
+              Text(
+                "USERNAME:",
+                style: TextStyle(
+                  color: Colors.black,
+                  letterSpacing: 2.0,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                "$username",
+                style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                "E-MAIL:",
+                style: TextStyle(
                     color: Colors.black,
                     letterSpacing: 2.0,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 5.0),
-                Text(
-                  "$username",
-                  style: TextStyle(color: Colors.blue, fontSize: 16.0),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  "E-MAIL:",
-                  style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 2.0,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 5.0),
-                Text(
-                  "$email",
-                  style: TextStyle(color: Colors.blue, fontSize: 16.0),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  "NUMBER OF PLANTS:",
-                  style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 2.0,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 5.0),
-                Text(
-                  "$numb_of_plants",
-                  style: TextStyle(color: Colors.blue, fontSize: 16.0),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            )));
+                    fontSize: 20.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                "$email",
+                style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                "NUMBER OF PLANTS:",
+                style: TextStyle(
+                    color: Colors.black,
+                    letterSpacing: 2.0,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                "$numb_of_plants",
+                style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
