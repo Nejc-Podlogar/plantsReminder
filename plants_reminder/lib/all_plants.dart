@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plants_reminder/circular_progress_indicator.dart';
+import 'package:plants_reminder/plants_widget.dart';
 import 'package:plants_reminder/utility.dart';
 
 class AllPlants extends StatefulWidget {
@@ -43,7 +44,11 @@ class _AllPlants extends State<AllPlants> {
         ? ListView.builder(
             itemCount: _items.length,
             itemBuilder: (BuildContext context, int index) {
-              return Text(_items[index]["name"]);
+              return Center(
+                child: PlantsWidget(
+                  plant: _items[index],
+                ),
+              );
             },
           )
         : CustomCircularProgressIndicator();
