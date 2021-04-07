@@ -4,6 +4,8 @@ import 'package:plants_reminder/utility.dart';
 import 'package:plants_reminder/circular_progress_indicator.dart';
 import 'dart:convert';
 
+import 'package:url_launcher/url_launcher.dart';
+
 class MyPlants extends StatefulWidget {
   const MyPlants({Key key}) : super(key: key);
 
@@ -39,6 +41,12 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
     });
   }
 
+  void _launchWikipedia(String _url) async {
+    await canLaunch(_url)
+        ? await launch(_url)
+        : throw 'Ne morem odpreti naslov $_url';
+  }
+
   void _buildPopup(BuildContext context, dynamic plant) {
     showDialog(
       context: context,
@@ -49,21 +57,83 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
         child: Align(
           alignment: Alignment.center,
           child: AlertDialog(
-            title: Text(plant["name"]),
+            title: Text(
+              plant["name"].toUpperCase(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            ),
             content: Column(mainAxisSize: MainAxisSize.min, children: [
-              Image.memory(base64.decode(plant["link_slika"])),
-              RichText(
-                  text: TextSpan(
-                      text: 'Latinsko ime: ',
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                    TextSpan(text: plant["latin_name"])
-                  ])),
               Container(
+                width: MediaQuery.of(context).size.width,
+                child: Image.memory(base64.decode(plant["slika"])),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: RichText(
-                  text: TextSpan(text: 'Opis:'),
+                    text: TextSpan(
+                        text: 'Latinsko ime: ',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: plant["latin_name"],
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 16))
+                    ])),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: RichText(
+                    text: TextSpan(
+                        text: 'Interval zalivanja: ',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: plant["watering_period"].toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 14))
+                    ])),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: RichText(
+                    text: TextSpan(
+                        text: 'Zadnje zalivanje: ',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: plant["watering_amount"].toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 14))
+                    ])),
+              ),
+              Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Text(
+                    "Opis:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  )),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Text(plant["description"]),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: OutlinedButton(
+                  child: Text("Wikipedija"),
+                  onPressed: () => _launchWikipedia(plant["link_wiki"]),
                 ),
-              )
+              ),
             ]),
             actions: <Widget>[
               FlatButton(
@@ -147,9 +217,13 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
                                   children: [
                                     Container(
                                       height: 100,
-                                      child: Image.asset(
-                                          "/logo/App_logoJPG.jpg",
-                                          width: screenWidth * 0.50 - 50),
+                                      child: Image.memory(
+                                          base64.decode(_items[index]["slika"]),
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.50 -
+                                              50),
                                     ),
                                     Container(
                                       height: 30,

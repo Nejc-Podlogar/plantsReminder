@@ -14,7 +14,7 @@ class MariaDB_Base:
                 password="ynpXyi2NmKARwX",
                 host=self.host,
                 port=self.port,
-                database="plants_reminder"
+                database="plantsreminder"
             )
 
         except mariadb.Error as e:
