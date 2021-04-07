@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plants_reminder/plants_widget_detailed.dart';
 import 'package:plants_reminder/utility.dart';
 
 class PlantsWidget extends StatefulWidget {
@@ -14,7 +15,16 @@ class _PlantsWidget extends State<PlantsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlantsWidgetDetailed(
+              plant: widget.plant,
+            ),
+          ),
+        );
+      },
       child: Card(
         child: Column(
           children: [

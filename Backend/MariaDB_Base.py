@@ -88,7 +88,7 @@ class MariaDB_Base:
                 plant['watering_period'] = res[4]
                 plant['watering_amount'] = res[5]
                 plant['link_wiki'] = res[6]
-                plant['link_slika'] = res[7]
+                plant['slika'] = res[7]
                 plants.append(plant)
 
             ret['plants'] = plants
