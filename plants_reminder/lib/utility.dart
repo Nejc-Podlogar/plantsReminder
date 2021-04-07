@@ -13,15 +13,15 @@ class Utility {
   static const String allPlants = "/allPlants";
   static const String allUserPlants = "/allUserPlants";
 
-  static Future<void> httpPostRequest(String method) async {
+  static Future<List<dynamic>> httpPostRequest(String method) async {
     final response = await http.post(
       Uri.http(serverUrl, method),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      // body: jsonEncode(<String, String>{
-      //   'title': title,
-      // }),
+      body: jsonEncode(<String, String>{
+        'username': 'admin',
+      }),
     );
 
     if (response.statusCode == 200) {
@@ -32,6 +32,15 @@ class Utility {
 
         case registration:
           {}
+          break;
+        case allUserPlants:
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+            // if (res['success'] == true) {
+            //   return res['plants'];
+            // }
+            return res['plants'];
+          }
           break;
       }
 
@@ -45,6 +54,7 @@ class Utility {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
+
       // body: jsonEncode(<String, String>{
       //   'title': title,
       // }),
@@ -61,10 +71,6 @@ class Utility {
             return res['plants'];
             // print(response.body);
           }
-          break;
-
-        case allUserPlants:
-          {}
           break;
       }
 
