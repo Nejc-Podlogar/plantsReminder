@@ -31,7 +31,7 @@ class _AllPlants extends State<AllPlants> {
     _items = await Utility.httpGetRequest(Utility.allPlants);
     print(_items.length);
 
-    await Future.delayed(const Duration(milliseconds: 5000));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       loading = false;
     });

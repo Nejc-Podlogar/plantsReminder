@@ -23,7 +23,7 @@ class _MyPlants extends State<MyPlants> {
   Widget build(BuildContext context) {
     double dWidth = MediaQuery.of(context).size.width;
     double dHeight = MediaQuery.of(context).size.height;
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -56,48 +56,26 @@ class _MyPlants extends State<MyPlants> {
               fontSize: 20.0,
             ),
           ),
-          FlipCard(
-            front: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Color.fromRGBO(210, 210, 210, 1),
-                    width: 2,
-                    style: BorderStyle.solid),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Color.fromARGB(127, 210, 210, 210),
-              ),
-              height: 300,
-              width: dWidth * 0.50,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset("/logo/App_logoJPG.jpg", width: dWidth * 0.50),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                    child: Text(
-                      "Marjetica",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.0),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                    child: Text(
-                      "Zaliva se 1x na teden",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 12.0),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            back: Container(
-                color: Colors.blue, height: 300, width: dWidth * 0.50),
-          ),
+          Container(
+            child: Text("Pozdrav"),
+          )
           // _navigationItems.elementAt(_selectedIndex),
         ],
       ),
     );
   }
 }
+
+Widget _buildGrid(double dWidth) => GridView.extent(
+      maxCrossAxisExtent: 150,
+      padding: const EdgeInsets.all(4),
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      children: _buildGridTileList(5, dWidth),
+    );
+
+List<Container> _buildGridTileList(int count, double dWidth) => List.generate(
+    count,
+    (i) => Container(
+          child: Text("Test"),
+        ));
