@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:plants_reminder/utility.dart';
 import 'package:plants_reminder/circular_progress_indicator.dart';
+import 'dart:convert';
 
 class MyPlants extends StatefulWidget {
   const MyPlants({Key key}) : super(key: key);
@@ -40,37 +41,39 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
 
   void _buildPopup(BuildContext context, dynamic plant) {
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => ListView(
-              shrinkWrap: true,
-              children: [
-                AlertDialog(
-                  title: Text(plant["name"]),
-                  content: Column(
-                    children: [
-                      RichText(
-                          text: TextSpan(
-                              text: 'Latinsko ime: ',
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                            TextSpan(text: plant["latin_name"])
-                          ])),
-                      Container(
-                        child: RichText(
-                          text: TextSpan(text: 'Opis:'),
-                        ),
-                      )
-                    ],
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                        onPressed: () => {Navigator.of(context).pop()},
-                        child: Text('Zapri'))
-                  ],
-                )
-              ],
-            ));
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Align(
+          alignment: Alignment.center,
+          child: AlertDialog(
+            title: Text(plant["name"]),
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              Image.memory(base64.decode(plant["link_slika"])),
+              RichText(
+                  text: TextSpan(
+                      text: 'Latinsko ime: ',
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                    TextSpan(text: plant["latin_name"])
+                  ])),
+              Container(
+                child: RichText(
+                  text: TextSpan(text: 'Opis:'),
+                ),
+              )
+            ]),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () => {Navigator.of(context).pop()},
+                  child: Text('Zapri'))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
