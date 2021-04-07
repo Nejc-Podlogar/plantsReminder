@@ -38,6 +38,41 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
     });
   }
 
+  void _buildPopup(BuildContext context, dynamic plant) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => ListView(
+              shrinkWrap: true,
+              children: [
+                AlertDialog(
+                  title: Text(plant["name"]),
+                  content: Column(
+                    children: [
+                      RichText(
+                          text: TextSpan(
+                              text: 'Latinsko ime: ',
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                            TextSpan(text: plant["latin_name"])
+                          ])),
+                      Container(
+                        child: RichText(
+                          text: TextSpan(text: 'Opis:'),
+                        ),
+                      )
+                    ],
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () => {Navigator.of(context).pop()},
+                        child: Text('Zapri'))
+                  ],
+                )
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -97,6 +132,10 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
                           return Card(
                             child: InkWell(
                               splashColor: Colors.blue.withAlpha(30),
+                              onTap: () {
+                                print('card tapped');
+                                _buildPopup(context, _items[index]);
+                              },
                               child: Container(
                                 width: screenWidth * 0.50 - 50,
                                 height: 600,
