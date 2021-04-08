@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class Utility {
-  static const String serverIP = "127.0.0.1";
+  static const String serverIP = "192.168.1.194";
   static const int serverPort = 5436;
   static String serverUrl = serverIP + ":" + serverPort.toString();
 

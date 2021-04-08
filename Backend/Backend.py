@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from MariaDB_Base import MariaDB_Base
+from werkzeug.serving import WSGIRequestHandler
 
 app = Flask(__name__)
 CORS(app)
@@ -63,7 +64,7 @@ def user_login():
         ret['success'] = False
         return jsonify(ret)
 
-@app.route('/allUserPlants', methods=['POST'])
+@app.route('/allUserPlants', methods=['GET'])
 def all_user_plants():
     ret = {}
     try:
@@ -110,4 +111,5 @@ def all_plants():
 
 
 if __name__ == "__main__":
-    app.run("127.0.0.1", 5436, True)
+    WSGIRequestHandler.protocol_version = "HTTP/1.1"
+    app.run("192.168.1.194", 5436, True)
