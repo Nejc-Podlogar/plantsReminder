@@ -29,7 +29,7 @@ class _AllPlants extends State<AllPlants> {
   }
 
   void getItems() async {
-    _items = await Utility.httpGetRequest(Utility.allPlants);
+    _items = await Utility.httpPostRequest(Utility.allPlants);
     print(_items.length);
 
     await Future.delayed(const Duration(milliseconds: 1000));
