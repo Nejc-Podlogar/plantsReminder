@@ -3,7 +3,7 @@ import uuid
 
 class MariaDB_Base:
     def __init__(self):
-        self.port = 5342
+        self.port = 3306
         self.host = "127.0.0.1"
         self.conn = None
 
@@ -11,7 +11,7 @@ class MariaDB_Base:
         try:
             self.conn = mariadb.connect(
                 user="root",
-                password="admin123",
+                password="ynpXyi2NmKARwX",
                 host=self.host,
                 port=self.port,
                 database="plantsreminder"
