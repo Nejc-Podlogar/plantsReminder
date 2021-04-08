@@ -3,7 +3,7 @@ import uuid
 
 class MariaDB_Base:
     def __init__(self):
-        self.port = 3306
+        self.port = 5342
         self.host = "127.0.0.1"
         self.conn = None
 
@@ -11,10 +11,10 @@ class MariaDB_Base:
         try:
             self.conn = mariadb.connect(
                 user="root",
-                password="ynpXyi2NmKARwX",
+                password="admin123",
                 host=self.host,
                 port=self.port,
-                database="plants_reminder"
+                database="plantsreminder"
             )
 
         except mariadb.Error as e:
@@ -121,7 +121,7 @@ class MariaDB_Base:
                 plant['watering_period'] = res[4]
                 plant['watering_amount'] = res[5]
                 plant['link_wiki'] = res[6]
-                plant['link_slika'] = res[7]
+                plant['slika'] = res[7]
                 plants.append(plant)
 
             ret['plants'] = plants

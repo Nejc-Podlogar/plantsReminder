@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class Utility {
-  static const String serverIP = "127.0.0.1";
+  static const String serverIP = "10.0.2.2";
   static const int serverPort = 5436;
   static String serverUrl = serverIP + ":" + serverPort.toString();
 
@@ -20,7 +20,7 @@ class Utility {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'username': 'admin',
+        'username': 'test',
       }),
     );
 
@@ -40,6 +40,17 @@ class Utility {
             //   return res['plants'];
             // }
             return res['plants'];
+          }
+          break;
+
+        case allPlants:
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+            // if (res['success'] == true) {
+            //   return res['plants'];
+            // }
+            return res['plants'];
+            // print(response.body);
           }
           break;
       }

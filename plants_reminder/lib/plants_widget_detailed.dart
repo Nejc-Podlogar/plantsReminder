@@ -26,36 +26,57 @@ class _PlantsWidgetDetailed extends State<PlantsWidgetDetailed> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
+        child: ListView(
+          children: [
+            Center(
+              child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
                   widget.plant['name'],
+                  style: TextStyle(
+                    fontSize: 40,
+                  ),
                 ),
               ),
-              Text(
-                widget.plant['latin_name'],
-              ),
-              Image.memory(
-                Base64Decoder().convert(
-                  widget.plant['slika'].toString(),
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  widget.plant['latin_name'],
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
-                width: MediaQuery.of(context).size.width * 0.6,
               ),
-              Text(
-                widget.plant['description'].toString(),
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.memory(
+                  Base64Decoder().convert(
+                    widget.plant['slika'].toString(),
+                  ),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                ),
               ),
-              TextButton(
-                onPressed: () {
-                  _launchWikiPage(widget.plant['link_wiki'].toString());
-                },
-                child: Text("Wikipedia"),
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  widget.plant['description'].toString(),
+                ),
               ),
-            ],
-          ),
+            ),
+            TextButton(
+              onPressed: () {
+                _launchWikiPage(widget.plant['link_wiki'].toString());
+              },
+              child: Text("Wikipedia"),
+            ),
+          ],
         ),
       ),
     );

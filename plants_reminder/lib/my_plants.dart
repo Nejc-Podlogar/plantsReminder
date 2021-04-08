@@ -66,9 +66,10 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
               )
             ]),
             actions: <Widget>[
-              FlatButton(
-                  onPressed: () => {Navigator.of(context).pop()},
-                  child: Text('Zapri'))
+              TextButton(
+                onPressed: () => {Navigator.of(context).pop()},
+                child: Text('Zapri'),
+              )
             ],
           ),
         ),
