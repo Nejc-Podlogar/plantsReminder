@@ -112,4 +112,4 @@ def all_plants():
 
 if __name__ == "__main__":
     WSGIRequestHandler.protocol_version = "HTTP/1.1"
-    app.run("127.0.0.1", 5436, True)
+    app.run("192.168.1.194", 5436, True)
