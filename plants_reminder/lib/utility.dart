@@ -14,8 +14,10 @@ class Utility {
   static const String allPlants = "/allPlants";
   static const String allUserPlants = "/allUserPlants";
   static const String newUserPlant = "/newUserPlant";
+  static const String updateLastWatering = "/updateLastWatering";
+  static const String getProfileInfo = "/getProfileInfo";
 
-  static Future<List<dynamic>> httpPostRequest(
+  static Future<dynamic> httpPostRequest(
       String method, Map<String, dynamic> jsonBody) async {
     final response = await http
         .post(
@@ -51,26 +53,41 @@ class Utility {
         case allUserPlants:
           {
             Map<String, dynamic> res = jsonDecode(response.body);
-            // if (res['success'] == true) {
-            //   return res['plants'];
-            // }
-            return res['plants'];
+
+            return res['success'] == true ? res['plants'] : null;
           }
           break;
 
         case allPlants:
           {
             Map<String, dynamic> res = jsonDecode(response.body);
-            // if (res['success'] == true) {
-            //   return res['plants'];
-            // }
-            return res['plants'];
-            // print(response.body);
+
+            return res['success'] == true ? res['plants'] : null;
           }
           break;
 
         case newUserPlant:
-          {}
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+
+            return res['success'];
+          }
+          break;
+
+        case updateLastWatering:
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+
+            return res['success'];
+          }
+          break;
+
+        case getProfileInfo:
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+
+            return res;
+          }
           break;
       }
 
