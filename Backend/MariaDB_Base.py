@@ -1,9 +1,11 @@
 import mariadb
 import uuid
+import datetime
 
 class MariaDB_Base:
     def __init__(self):
-        self.port = 3306
+        #self.port = 3306
+        self.port = 5342
         self.host = "127.0.0.1"
         self.conn = None
 
@@ -11,7 +13,8 @@ class MariaDB_Base:
         try:
             self.conn = mariadb.connect(
                 user="root",
-                password="ynpXyi2NmKARwX",
+                #password="ynpXyi2NmKARwX",
+                password="admin123",
                 host=self.host,
                 port=self.port,
                 database="plantsreminder"
@@ -28,9 +31,13 @@ class MariaDB_Base:
         cur = self.conn.cursor()
 
         try:
-            cur.callproc('registerUser', (email, username, password, str(uuid.uuid4())))
+            row_guid_user = str(uuid.uuid4())
+
+            cur.callproc('registerUser', (email, username, password, str(uuid.uuid4(),row_guid_user)))
             self.conn.commit()
             print("reg res:".format(cur.fetchall()))
+
+            ret['row_guid'] = row_guid_user
         
         except mariadb.Error as e: 
             print("Napaka pri registraciji")
@@ -69,11 +76,11 @@ class MariaDB_Base:
         ret['success'] = True
         return ret
 
-    def allUserPlants(self, username):
+    def allUserPlants(self, row_guid):
         ret= {}
         cur = self.conn.cursor()
         try:
-            sql = "Select * from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.username = '{}'".format(str(username))
+            sql = "Select * from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.row_guid = '{}'".format(str(row_guid))
             cur.execute(sql)
 
             ret['success'] = True
@@ -133,6 +140,60 @@ class MariaDB_Base:
             ret['error'] = 'Napaka pri pridobivanju rastlin'
             ret['success'] = False
             return ret
+
+
+    def newUserPlant(self, row_guid, plant_id):
+        ret = {}
+        cur = self.conn.cursor()
+        
+        try:
+            sql = "SELECT id FROM users WHERE users.row_guid = '{}'".format(str(row_guid))
+            cur.execute(sql)
+
+            res = cur.fetchall()
+
+            if (not cur or len(res) == 0):
+                ret['success'] = False
+                return ret
+
+            print(res[0])
+
+            sql = "INSERT INTO plants_users (fk_plants, fk_users) VALUES ({}, {});".format(int(plant_id), int(res[0][0]))
+            cur.execute(sql)
+            self.conn.commit()
+
+            ret['success'] = True
+            return ret
+
+
+        except mariadb.Error as e: 
+            print("Napaka pri dodajanju nove rastline")
+            print("{}".format(str(e)))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
+
+    def updateLastWatering(self, id):
+        ret = {}
+        cur = self.conn.cursor()
+        
+        try:
+            sql = "UPDATE plants_users SET last_watering = '{}' WHERE id = {};".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), int(id))
+            cur.execute(sql)
+            self.conn.commit()
+
+            ret['success'] = True
+            return ret
+
+
+        except mariadb.Error as e: 
+            print("Napaka pri dodajanju nove rastline")
+            print("{}".format(str(e)))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
 
     def close_connection(self):
         self.conn.close()

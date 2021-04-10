@@ -32,8 +32,10 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
   }
 
   void getItems() async {
-    _items = await Utility.httpPostRequest(Utility.allUserPlants);
-    print(_items.length);
+    Map<String, dynamic> map = {};
+    map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";
+    _items = await Utility.httpPostRequest(Utility.allUserPlants, map);
+    print(_items);
 
     await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {

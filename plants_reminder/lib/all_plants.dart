@@ -29,8 +29,8 @@ class _AllPlants extends State<AllPlants> {
   }
 
   void getItems() async {
-    _items = await Utility.httpPostRequest(Utility.allPlants);
-    print(_items.length);
+    _items = await Utility.httpPostRequest(Utility.allPlants, null);
+    //print(_items.length);
 
     await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
@@ -38,19 +38,31 @@ class _AllPlants extends State<AllPlants> {
     });
   }
 
+  _buildElemnts() {
+    if (loading == false) {
+      if (_items == null) {
+        return Container();
+      } else if (_items.isEmpty) {
+        Text("Ni nobenih rož");
+      } else {
+        return ListView.builder(
+          itemCount: _items.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Center(
+              child: PlantsWidget(
+                plant: _items[index],
+              ),
+            );
+          },
+        );
+      }
+    } else {
+      return CustomCircularProgressIndicator();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return loading == false
-        ? ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Center(
-                child: PlantsWidget(
-                  plant: _items[index],
-                ),
-              );
-            },
-          )
-        : CustomCircularProgressIndicator();
+    return _buildElemnts();
   }
 }
