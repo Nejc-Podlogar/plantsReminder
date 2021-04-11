@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:plants_reminder/check_connectivity.dart';
 import 'package:plants_reminder/main_page.dart';
 import 'utility.dart';
+import 'package:plants_reminder/log_in_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       // home: MyHomePage(title: 'Plants Reminder'),
-      home: MainPage(),
+      home: LogIn(),
     );
   }
 }
