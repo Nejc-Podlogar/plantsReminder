@@ -16,6 +16,7 @@ class Utility {
   static const String newUserPlant = "/newUserPlant";
   static const String updateLastWatering = "/updateLastWatering";
   static const String getProfileInfo = "/getProfileInfo";
+  static const String deleteUserPlant = "/deleteUserPlant";
 
   static Future<dynamic> httpPostRequest(
       String method, Map<String, dynamic> jsonBody) async {
@@ -87,6 +88,14 @@ class Utility {
             Map<String, dynamic> res = jsonDecode(response.body);
 
             return res;
+          }
+          break;
+
+        case deleteUserPlant:
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+
+            return res['success'];
           }
           break;
       }

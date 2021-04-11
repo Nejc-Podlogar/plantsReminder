@@ -80,7 +80,7 @@ class MariaDB_Base:
         ret= {}
         cur = self.conn.cursor()
         try:
-            sql = "Select * from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.row_guid = '{}'".format(str(row_guid))
+            sql = "Select p.id,p.name,p.latin_name,p.description,p.watering_period,p.watering_amount,p.link_wiki,p.slika, pu.id from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.row_guid = '{}'".format(str(row_guid))
             cur.execute(sql)
 
             ret['success'] = True
@@ -96,8 +96,10 @@ class MariaDB_Base:
                 plant['watering_amount'] = res[5]
                 plant['link_wiki'] = res[6]
                 plant['slika'] = res[7]
+                plant['pu_id'] = res[8]
                 plants.append(plant)
 
+            ret['success'] = True
             ret['plants'] = plants
             return ret
 
@@ -131,6 +133,7 @@ class MariaDB_Base:
                 plant['slika'] = res[7]
                 plants.append(plant)
 
+            ret['success'] = True
             ret['plants'] = plants
             return ret
 
@@ -181,6 +184,63 @@ class MariaDB_Base:
         try:
             sql = "UPDATE plants_users SET last_watering = '{}' WHERE id = {};".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), int(id))
             cur.execute(sql)
+            self.conn.commit()
+
+            ret['success'] = True
+            return ret
+
+
+        except mariadb.Error as e: 
+            print("Napaka pri updatu dneva zalivanja")
+            print("{}".format(str(e)))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
+
+    def getProfileInfo(self, row_guid):
+        ret = {}
+        cur = self.conn.cursor()
+        
+        try:
+            sql = "SELECT * FROM users WHERE users.row_guid = '{}'".format(str(row_guid));
+            cur.execute(sql)
+            profile_info = cur.fetchall()
+            print("profile_info: {}".format(profile_info))
+
+            if (len(profile_info) > 0):
+                ret['username'] = profile_info[0][1]
+                ret['email'] = profile_info[0][3]       
+
+            sql = "SELECT COUNT(*) FROM plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.row_guid = '{}'".format(str(row_guid))
+            cur.execute(sql)
+            count_plants = cur.fetchall()
+
+            if (len(count_plants) > 0):
+                ret['plants_count'] = count_plants[0][0]
+
+            ret['success'] = True
+            return ret
+
+
+        except mariadb.Error as e: 
+            print("Napaka pri dodajanju nove rastline")
+            print("{}".format(str(e)))
+            ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
+
+    def deleteUserPlant(self, id):
+        ret = {}
+        cur = self.conn.cursor()
+
+        print("id: {}".format(id))
+        
+        try:
+            sql = "DELETE FROM plants_users WHERE plants_users.id = {}".format(int(id));
+            cur.execute(sql)
+
             self.conn.commit()
 
             ret['success'] = True
