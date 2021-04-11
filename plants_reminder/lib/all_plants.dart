@@ -41,9 +41,18 @@ class _AllPlants extends State<AllPlants> {
   _buildElemnts() {
     if (loading == false) {
       if (_items == null) {
+        //Funkcija se izvede za initState ter prepreči crash, ko se izvede klic build
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Povezava na strežnik ni uspela."),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        });
         return Container();
       } else if (_items.isEmpty) {
-        Text("Ni nobenih rož");
+        return Text("Ni nobenih rož");
       } else {
         return ListView.builder(
           itemCount: _items.length,

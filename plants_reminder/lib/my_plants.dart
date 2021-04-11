@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:plants_reminder/main.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:plants_reminder/utility.dart';
 import 'package:plants_reminder/circular_progress_indicator.dart';
 import 'dart:convert';
+import 'main_page.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,87 +63,118 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
           child: AlertDialog(
             title: Text(
               plant["name"].toUpperCase(),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
             ),
-            content: Column(mainAxisSize: MainAxisSize.min, children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Image.memory(base64.decode(plant["slika"])),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: RichText(
-                    text: TextSpan(
-                        text: 'Latinsko ime: ',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                        children: <TextSpan>[
-                      TextSpan(
-                          text: plant["latin_name"],
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 16))
-                    ])),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: RichText(
-                    text: TextSpan(
-                        text: 'Interval zalivanja: ',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                        children: <TextSpan>[
-                      TextSpan(
-                          text: plant["watering_period"].toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 14))
-                    ])),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: RichText(
-                    text: TextSpan(
-                        text: 'Zadnje zalivanje: ',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                        children: <TextSpan>[
-                      TextSpan(
-                          text: plant["watering_amount"].toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 14))
-                    ])),
-              ),
-              Container(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.memory(base64.decode(plant["slika"])),
+                ),
+                Container(
                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: Text(
-                    "Opis:",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  )),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: Text(plant["description"]),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: OutlinedButton(
-                  child: Text("Wikipedija"),
-                  onPressed: () => _launchWikipedia(plant["link_wiki"]),
+                  child: RichText(
+                      text: TextSpan(
+                          text: 'Latinsko ime: ',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                          children: <TextSpan>[
+                        TextSpan(
+                            text: plant["latin_name"],
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 16))
+                      ])),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: RichText(
+                      text: TextSpan(
+                          text: 'Interval zalivanja: ',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                          children: <TextSpan>[
+                        TextSpan(
+                            text: plant["watering_period"].toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 14))
+                      ])),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: RichText(
+                      text: TextSpan(
+                          text: 'Zadnje zalivanje: ',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                          children: <TextSpan>[
+                        TextSpan(
+                            text: plant["watering_amount"].toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 14))
+                      ])),
+                ),
+                Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Text(
+                      "Opis:",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(plant["description"]),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: OutlinedButton(
+                    child: Text("Wikipedija"),
+                    onPressed: () => _launchWikipedia(plant["link_wiki"]),
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                onPressed: () async {
+                  Map<String, dynamic> map = {};
+                  map['id'] = plant['pu_id'].toString();
+                  bool res = await Utility.httpPostRequest(
+                      Utility.deleteUserPlant, map);
+
+                  if (res == true) {
+                    map = {};
+                    map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";
+                    Navigator.pop(context);
+
+                    setState(() {
+                      loading = true;
+                    });
+                    getItems();
+                  } else {
+                    print("ni zbrisalo");
+                  }
+                },
+                child: Text('Zbriši'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                 ),
               ),
-            ]),
-            actions: <Widget>[
               TextButton(
                 onPressed: () => {Navigator.of(context).pop()},
                 child: Text('Zapri'),
-              )
+              ),
             ],
           ),
         ),
