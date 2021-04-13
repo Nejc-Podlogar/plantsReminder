@@ -36,19 +36,19 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $tableUser (
-        $columnUserId INTEGER PRIMARY KEY UNIQUE AUTOINCREMENT,
+        $columnUserId INTEGER PRIMARY KEY UNIQUE NOT NULL AUTOINCREMENT,
         $columnUserGuid VARCHAR(64) UNIQUE NOT NULL
       )
     ''');
   }
 
-  Future<void> insert(String guid) async {
+  static Future<void> insertDB(String guid) async {
     Database db = await instance.database;
     int id = await db.insert(tableUser, {"$columnUserGuid": guid});
     print("user inserted: " + id.toString());
   }
 
-  Future<String> getUserGuid() async {
+  static Future<String> getUserGuid() async {
     Database db = await instance.database;
     List<Map> users = await db.query(tableUser);
     if (users.length > 0) {

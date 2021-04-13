@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       // home: MyHomePage(title: 'Plants Reminder'),
-      home: LogIn(),
+      home: MainPage(),
     );
   }
 }
