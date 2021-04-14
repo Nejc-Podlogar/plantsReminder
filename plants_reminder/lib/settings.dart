@@ -82,37 +82,15 @@ class _Settings extends State<Settings> {
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
                         ),
-                        actions: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Close")),
-                        ],
-                      );
-                    });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Change Password",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[600],
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                    )
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
 
               //Change theme
               GestureDetector(
@@ -142,38 +120,30 @@ class _Settings extends State<Settings> {
                                 },
                                 child: Text("Close")),
                           ],
+                        );
+                      });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Change Theme",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
                         ),
-                        actions: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Close")),
-                        ],
-                      );
-                    });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Change Theme",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[600],
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                    )
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
 
               //Privacy and security
               GestureDetector(
@@ -194,38 +164,30 @@ class _Settings extends State<Settings> {
                                 },
                                 child: Text("Close")),
                           ],
+                        );
+                      });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Privacy and Security",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
                         ),
-                        actions: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Close")),
-                        ],
-                      );
-                    });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Privacy and Security",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[600],
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                    )
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
 
               //notification settings
               SizedBox(
@@ -254,71 +216,59 @@ class _Settings extends State<Settings> {
                 height: 10,
               ),
 
-            //Plant news
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Plant News",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey,
+              //Plant news
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Plant News",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Transform.scale(
-                  scale: 0.7,
-                  child: Switch(
-                    value: boolNewsForYou,
-                    onChanged: (value) {
-                      setState(() {
-                        boolNewsForYou = value;
-                      });
-                    },
+                  Transform.scale(
+                    scale: 0.7,
+                    child: Switch(
+                      value: boolNewsForYou,
+                      onChanged: (value) {
+                        setState(() {
+                          boolNewsForYou = value;
+                        });
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
 
-            //Watering notifications
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Watering Notifications",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey,
+              //Watering notifications
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Watering Notifications",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Transform.scale(
-                  scale: 0.7,
-                  child: Switch(
-                    value: boolWateringNotifications,
-                    onChanged: (value) {
-                      setState(() {
-                        boolWateringNotifications = value;
-                      });
-                    },
+                  Transform.scale(
+                    scale: 0.7,
+                    child: Switch(
+                      value: boolWateringNotifications,
+                      onChanged: (value) {
+                        setState(() {
+                          boolWateringNotifications = value;
+                        });
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-
-            TextButton(
-              onPressed: () async {
-                DatabaseHelper helper;
-
-                await DatabaseHelper.insertDB("Testni_user");
-
-                print("helper" + await DatabaseHelper.getUserGuid());
-              },
-              child: Text("Test za bazo"),
-            ),
-          ],
-        ),
-      ),
-    );
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
