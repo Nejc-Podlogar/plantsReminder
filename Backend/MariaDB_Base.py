@@ -33,11 +33,11 @@ class MariaDB_Base:
         try:
             row_guid_user = str(uuid.uuid4())
 
-            cur.callproc('registerUser', (email, username, password, str(uuid.uuid4(),row_guid_user)))
+            cur.callproc('registerUser', (email, username, password, str(uuid.uuid4()), row_guid_user))
             self.conn.commit()
             print("reg res:".format(cur.fetchall()))
 
-            ret['row_guid'] = row_guid_user
+            #ret['row_guid'] = row_guid_user
         
         except mariadb.Error as e: 
             print("Napaka pri registraciji")
@@ -56,10 +56,11 @@ class MariaDB_Base:
         ret = {}
         cur = self.conn.cursor()
         try:
-            cur.callproc('loginUser', (username_or_email, password, 1))
+            cur.callproc('loginUser', (username_or_email, password, 1, 1))
             #print("Fetch one: {}".format(cur.fetchone()))
 
             proc_res = cur.fetchone()
+            print(proc_res)
             if (len(proc_res) == 0 or proc_res[0] == 0):
                 ret['error'] = 'Uporabnik ni najden'
                 ret['success'] = False
@@ -74,6 +75,7 @@ class MariaDB_Base:
 
         
         ret['success'] = True
+        ret['row_guid'] = proc_res[1]
         return ret
 
     def allUserPlants(self, row_guid):

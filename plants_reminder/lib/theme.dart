@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:plants_reminder/main_page.dart';
 import 'package:provider/provider.dart';
 import 'package:plants_reminder/log_in_page.dart';
+import 'circular_progress_indicator.dart';
+import 'locale_database.dart';
 
 class ThemeChanger with ChangeNotifier {
   ThemeData _themeData;
@@ -36,6 +39,31 @@ ThemeData basicTheme() {
   );
 }
 
+// Widget _loginOrContinue() {
+//   String neke;
+//   DatabaseHelper.getUserGuid().then((String value) {
+//     print(value);
+//     neke = value;
+//   });
+//   print("neke" + neke);
+//   return MainPage();
+//   // print("User: " + neke);
+//   // return value == "" ? LogIn() : MainPage();
+// }
+
+// class MaterialAppWithTheme extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Provider.of<ThemeChanger>(context);
+//     return MaterialApp(
+//       title: 'Plants reminder',
+//       home: _loginOrContinue(),
+//       theme: theme.getTheme(),
+//     );
+//   }
+// }
+//
+
 class MaterialAppWithTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,8 +71,44 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     return MaterialApp(
       title: 'Plants reminder',
-      home: LogIn(),
+      home: LoginOrContinue(),
       theme: theme.getTheme(),
     );
+  }
+}
+
+class LoginOrContinue extends StatefulWidget {
+  const LoginOrContinue({Key key}) : super(key: key);
+
+  @override
+  State createState() => _LoginOrContinue();
+}
+
+class _LoginOrContinue extends State<LoginOrContinue> {
+  Widget toLoad;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkIfLogedIn();
+  }
+
+  checkIfLogedIn() async {
+    toLoad = await DatabaseHelper.getUserGuid() == "" ? LogIn() : MainPage();
+    setState(() {});
+  }
+
+  _buildElements() {
+    if (toLoad == null) {
+      return CustomCircularProgressIndicator();
+    } else {
+      return toLoad;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return _buildElements();
   }
 }

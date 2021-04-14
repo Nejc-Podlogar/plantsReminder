@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,7 +37,7 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $tableUser (
-        $columnUserId INTEGER PRIMARY KEY UNIQUE NOT NULL AUTOINCREMENT,
+        $columnUserId INTEGER PRIMARY KEY AUTOINCREMENT,
         $columnUserGuid VARCHAR(64) UNIQUE NOT NULL
       )
     ''');
@@ -50,16 +51,22 @@ class DatabaseHelper {
 
   static Future<String> getUserGuid() async {
     Database db = await instance.database;
-    List<Map> users = await db.query(tableUser);
-    if (users.length > 0) {
-      return users[0]['$columnUserGuid'];
-    }
+    try {
+      List<Map> users = await db.query(tableUser);
+      if (users.length > 0) {
+        print("user count: " + users.length.toString());
+        return users[0]['$columnUserGuid'];
+      } else {
+        print("user guid ni najden");
+        return "";
+      }
+    } on Exception {}
   }
 
-  Future<void> dropTable() async {
+  static Future<void> dropTable() async {
     Database db = await instance.database;
     await db.execute('''
-      DROP TABLE IF EXISTS $tableUser
+      DELETE FROM $tableUser
     ''');
   }
 }
