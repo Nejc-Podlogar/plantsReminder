@@ -9,6 +9,7 @@ import 'package:connectivity/connectivity.dart';
 import 'check_connectivity.dart';
 import 'utility.dart';
 import 'main.dart';
+import 'locale_database.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key key}) : super(key: key);
@@ -85,24 +86,39 @@ class _MainPage extends State<MainPage> {
                   ),
 
                   TextButton(
-                      onPressed: () async {
-                        Map<String, dynamic> map = {};
-                        map['row_guid'] =
-                            "6fa459ea-ee8a-3ca4-894e-db77e160355e";
-                        map['plant_id'] = _choseValue['id'].toString();
-                        bool success = await Utility.httpPostRequest(
-                            Utility.newUserPlant, map);
+                    onPressed: () async {
+                      Map<String, dynamic> map = {};
+                      map['row_guid'] = await DatabaseHelper.getUserGuid();
+                      map['plant_id'] = _choseValue['id'].toString();
+                      bool success = await Utility.httpPostRequest(
+                          Utility.newUserPlant, map);
 
-                        if (success) {
-                          print("New plant added");
-                          Navigator.pop(context);
+                      if (success) {
+                        print("New plant added");
+                        Navigator.pop(context);
 
-                          setState(() {});
-                        } else {
-                          print("plant not added");
-                        }
-                      },
-                      child: Text("Dodaj rožo"))
+                        setState(() {});
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Roža dodana."),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      } else {
+                        print("plant not added");
+
+                        setState(() {});
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Roža ni bila dodana."),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text("Dodaj rožo"),
+                  )
                 ],
               );
             },

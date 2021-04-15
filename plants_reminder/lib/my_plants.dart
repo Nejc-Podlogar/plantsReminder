@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plants_reminder/locale_database.dart';
 import 'package:plants_reminder/main.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:plants_reminder/utility.dart';
@@ -35,7 +36,8 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
 
   void getItems() async {
     Map<String, dynamic> map = {};
-    map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";
+    // map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";
+    map['row_guid'] = await DatabaseHelper.getUserGuid();
     _items = await Utility.httpPostRequest(Utility.allUserPlants, map);
     print(_items);
 
@@ -155,7 +157,7 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
 
                   if (res == true) {
                     map = {};
-                    map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";
+                    map['row_guid'] = await DatabaseHelper.getUserGuid();
                     Navigator.pop(context);
 
                     setState(() {

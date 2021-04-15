@@ -45,11 +45,19 @@ class Utility {
     if (response.statusCode == 200) {
       switch (method) {
         case login:
-          {}
+          {
+            Map<String, dynamic> res = jsonDecode(response.body);
+
+            return res;
+          }
           break;
 
         case registration:
-          {}
+          {
+            dynamic res = jsonDecode(response.body);
+
+            return res;
+          }
           break;
         case allUserPlants:
           {

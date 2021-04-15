@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plants_reminder/changePassword.dart';
 import 'package:plants_reminder/locale_database.dart';
+import 'package:plants_reminder/log_in_page.dart';
+import 'package:plants_reminder/main.dart';
 import 'package:provider/provider.dart';
 import 'package:plants_reminder/theme.dart';
 
@@ -273,10 +275,16 @@ class _Settings extends State<Settings> {
               onPressed: () async {
                 //DatabaseHelper.insertDB("Test");
                 //print("Guid v bazi: " + await DatabaseHelper.getUserGuid());
-                DatabaseHelper.dropTable();
-                print("Guid v bazi: " + await DatabaseHelper.getUserGuid());
+                await DatabaseHelper.deleteUserInfo();
+                // print("Guid v bazi: " + await DatabaseHelper.getUserGuid());
+                await Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyApp(),
+                  ),
+                );
               },
-              child: Text("Test za bazo"),
+              child: Text("Sign out"),
             ),
           ],
         ),

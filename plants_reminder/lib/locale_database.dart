@@ -63,7 +63,7 @@ class DatabaseHelper {
     } on Exception {}
   }
 
-  static Future<void> dropTable() async {
+  static Future<void> deleteUserInfo() async {
     Database db = await instance.database;
     await db.execute('''
       DELETE FROM $tableUser

@@ -35,7 +35,7 @@ class MariaDB_Base:
 
             cur.callproc('registerUser', (email, username, password, str(uuid.uuid4()), row_guid_user))
             self.conn.commit()
-            print("reg res:".format(cur.fetchall()))
+            #print("reg res:".format(cur.fetchall()))
 
             #ret['row_guid'] = row_guid_user
         
