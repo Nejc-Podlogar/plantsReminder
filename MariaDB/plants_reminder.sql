@@ -50,12 +50,13 @@ UNLOCK TABLES;
 -- Table structure for table `plants_users`
 --
 
+
 DROP TABLE IF EXISTS `plants_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plants_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `last_watering` smallint(3) unsigned DEFAULT NULL,
+  `last_watering` datetime DEFAULT NULL,
   `fk_plants` int(10) unsigned NOT NULL,
   `fk_users` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
@@ -63,18 +64,8 @@ CREATE TABLE `plants_users` (
   KEY `fk_users` (`fk_users`),
   CONSTRAINT `fk_plants` FOREIGN KEY (`fk_plants`) REFERENCES `plants` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_users` FOREIGN KEY (`fk_users`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `plants_users`
---
-
-LOCK TABLES `plants_users` WRITE;
-/*!40000 ALTER TABLE `plants_users` DISABLE KEYS */;
-INSERT INTO `plants_users` VALUES (1,0,1,1),(2,0,2,1),(3,0,3,1),(4,0,4,2);
-/*!40000 ALTER TABLE `plants_users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -89,23 +80,13 @@ CREATE TABLE `users` (
   `password` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `hash` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `polje_id` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `row_guid` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `polje_id` (`polje_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  UNIQUE KEY `row_guid_UNIQUE` (`row_guid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'test','test','test@test.com','241551353','sadasdXY3783718x'),(2,'test2','test','test','6534534','sadasdXY3783718y');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'plantsreminder'
@@ -118,16 +99,17 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `loginUser`(
 	IN `username1` VARCHAR(45),
 	IN `password1` VARCHAR(45),
-	OUT `uspesnost` INT
+	OUT `uspesnost` INT,
+    OUT `row_guid` VARCHAR(100)
 )
 BEGIN
 
-select count(*) into uspesnost from users where (username=username1 or email=username1) and password=cast(sha2(CONCAT(hash, password1), 256) as char);
+select count(*), users.row_guid into uspesnost, row_guid from users where (username=username1 or email=username1) and password=cast(sha2(CONCAT(hash, password1), 256) as char);
 
 END ;;
 DELIMITER ;
@@ -143,18 +125,18 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `registerUser`(
 	IN `email1` VARCHAR(45),
 	IN `username1` VARCHAR(45),
 	IN `geslo1` VARCHAR(64),
 	IN `hash1` VARCHAR(45),
-	IN `polje_id1` VARCHAR(45)
+    IN `row_guid1` VARCHAR(100)
 )
 BEGIN
 
-INSERT INTO users (username, password, email, hash, polje_id) VALUES (username1, cast(sha2(CONCAT(hash1, geslo1), 256) as char), email1, hash1, polje_id1);
+INSERT INTO users (username, password, email, hash, row_guid) VALUES (username1, cast(sha2(CONCAT(hash1, geslo1), 256) as char), email1, hash1, row_guid1);
 
 END ;;
 DELIMITER ;
@@ -172,4 +154,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07 22:09:10
+-- Dump completed on 2021-04-17 13:15:40
