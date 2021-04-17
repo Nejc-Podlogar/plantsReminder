@@ -75,6 +75,11 @@ class _Profile extends State<Profile> {
     print(profile);
     // primer odgovora:
     // {email: dejvidkovac@gmail.com, plants_count: 0, success: true, username: w3m3l}
+    if (profile["success"] == true) {
+      username = profile["username"];
+      email = profile["email"];
+      numb_of_plants = profile["plants_count"];
+    }
 
     setState(() {
       _isLoading = false;

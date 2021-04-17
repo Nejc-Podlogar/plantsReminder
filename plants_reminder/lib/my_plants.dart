@@ -208,7 +208,7 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
                 ],
               ),
               Container(
-                height: screenHeight * 0.80 - 20,
+                height: screenHeight * 0.70,
                 margin: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: TabBarView(
                   controller: _nestedTabController,
