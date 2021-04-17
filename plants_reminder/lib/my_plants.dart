@@ -34,6 +34,11 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
     getItems();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+  }
+
   void getItems() async {
     Map<String, dynamic> map = {};
     // map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";

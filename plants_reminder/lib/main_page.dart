@@ -21,6 +21,7 @@ class MainPage extends StatefulWidget {
 class _MainPage extends State<MainPage> {
   int _selectedIndex = 1;
   dynamic _choseValue;
+  final dateController = TextEditingController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -44,6 +45,11 @@ class _MainPage extends State<MainPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    dateController.dispose();
+  }
+
   static const List<Widget> _navigationItems = <Widget>[
     MyPlants(),
     AllPlants(),
@@ -62,6 +68,12 @@ class _MainPage extends State<MainPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   //your code dropdown button here
+                  Text(
+                    'Rastlina:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   DropdownButton<dynamic>(
                     value: _choseValue,
                     items: plants.map(
@@ -80,45 +92,67 @@ class _MainPage extends State<MainPage> {
                       });
                     },
                   ),
-
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Text(
+                      'Dan zadnjega zalivanja',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    margin: EdgeInsets.only(top: 20),
                   ),
+                  Container(
+                    width: 100,
+                    child: TextField(
+                      readOnly: true,
+                      controller: dateController,
+                      decoration: InputDecoration(hintText: 'Izberi datum'),
+                      onTap: () async {
+                        var date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(3000));
+                        dateController.text = date.toString().substring(0, 10);
+                      },
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          Map<String, dynamic> map = {};
+                          map['row_guid'] = await DatabaseHelper.getUserGuid();
+                          map['plant_id'] = _choseValue['id'].toString();
+                          bool success = await Utility.httpPostRequest(
+                              Utility.newUserPlant, map);
 
-                  TextButton(
-                    onPressed: () async {
-                      Map<String, dynamic> map = {};
-                      map['row_guid'] = await DatabaseHelper.getUserGuid();
-                      map['plant_id'] = _choseValue['id'].toString();
-                      bool success = await Utility.httpPostRequest(
-                          Utility.newUserPlant, map);
+                          if (success) {
+                            print("New plant added");
+                            Navigator.pop(context);
 
-                      if (success) {
-                        print("New plant added");
-                        Navigator.pop(context);
+                            setState(() {});
 
-                        setState(() {});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Roža dodana."),
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                          } else {
+                            print("plant not added");
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Roža dodana."),
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      } else {
-                        print("plant not added");
-
-                        setState(() {});
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Roža ni bila dodana."),
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      }
-                    },
-                    child: Text("Dodaj rožo"),
-                  )
+                            setState(() {});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Roža ni bila dodana."),
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text("Dodaj rožo"),
+                      ))
                 ],
               );
             },
