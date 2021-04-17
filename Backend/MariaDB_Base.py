@@ -1,6 +1,7 @@
 import mariadb
 import uuid
 import datetime
+import hashlib
 
 class MariaDB_Base:
     def __init__(self):
@@ -253,6 +254,36 @@ class MariaDB_Base:
             print("Napaka pri dodajanju nove rastline")
             print("{}".format(str(e)))
             ret['error'] = 'Napaka pri pridobivanju rastlin'
+            ret['success'] = False
+            return ret
+
+
+    def change_password(self, old_password, new_password, row_guid):
+        ret = {}
+        cur = self.conn.cursor()
+
+        #print("id: {}".format(id))
+        
+        try:
+            sql = "UPDATE users SET users.password = cast(sha2(CONCAT(hash, '{}'), 256) as char) WHERE users.row_guid = '{}' AND users.password = cast(sha2(CONCAT(hash, '{}'), 256) as char)".format(new_password, row_guid, old_password);
+
+            cur.execute(sql)
+
+            if (cur.rowcount > 0):
+                self.conn.commit()
+                ret['success'] = True
+                return ret
+            else:
+                self.conn.commit()
+                ret['success'] = False
+                ret['reason'] = "Staro geslo ni pravilno"
+                return ret
+
+
+        except mariadb.Error as e: 
+            print("Napaka pri dodajanju nove rastline")
+            print("{}".format(str(e)))
+            ret['error'] = 'Napaka pri spremembi gesla'
             ret['success'] = False
             return ret
 

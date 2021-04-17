@@ -221,6 +221,38 @@ def deleteUserPlant():
         return jsonify(ret)
 
 
+@app.route('/changePassword', methods=['POST'])
+def change_password():
+    ret = {}
+    try:
+        content = request.get_json()
+        old_password = content['old_password']
+        new_password= content['new_password']
+        confirm_password= content['confirm_password']
+        row_guid= content['row_guid']
+
+        if (old_password is None or new_password is None or confirm_password is None or row_guid is None):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (new_password != confirm_password):
+            ret['success'] = False
+            return jsonify(ret)
+
+        if (base.connect_to_database() is False):
+            ret['success'] = False
+            return jsonify(ret)
+
+        ret = base.change_password(old_password, new_password, row_guid)
+
+        return jsonify(ret)
+
+    except Exception as e:
+        print(e)
+        ret['success'] = False
+        return jsonify(ret)
+
+
 if __name__ == "__main__":
     WSGIRequestHandler.protocol_version = "HTTP/1.1"
     #app.run("192.168.1.194", 5436, True)

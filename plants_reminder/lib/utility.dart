@@ -17,6 +17,7 @@ class Utility {
   static const String updateLastWatering = "/updateLastWatering";
   static const String getProfileInfo = "/getProfileInfo";
   static const String deleteUserPlant = "/deleteUserPlant";
+  static const String changePassword = "/changePassword";
 
   static Future<dynamic> httpPostRequest(
       String method, Map<String, dynamic> jsonBody) async {
@@ -104,6 +105,20 @@ class Utility {
             Map<String, dynamic> res = jsonDecode(response.body);
 
             return res['success'];
+          }
+          break;
+
+        case changePassword:
+          {
+            /**
+             * Primer vračanja
+             * {'success': True}
+             * {'success': False, 'reason': "Staro geslo ni enako trenutnemu"}
+             */
+
+            Map<String, dynamic> res = jsonDecode(response.body);
+
+            return res;
           }
           break;
       }
