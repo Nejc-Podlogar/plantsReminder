@@ -5,8 +5,8 @@ import hashlib
 
 class MariaDB_Base:
     def __init__(self):
-        self.port = 3306
-        #self.port = 5342
+        #self.port = 3306
+        self.port = 5342
         self.host = "127.0.0.1"
         self.conn = None
 
@@ -14,8 +14,8 @@ class MariaDB_Base:
         try:
             self.conn = mariadb.connect(
                 user="root",
-                password="ynpXyi2NmKARwX",
-                #password="admin123",
+                #password="ynpXyi2NmKARwX",
+                password="admin123",
                 host=self.host,
                 port=self.port,
                 database="plantsreminder"
@@ -79,11 +79,12 @@ class MariaDB_Base:
         ret['row_guid'] = proc_res[1]
         return ret
 
+
     def allUserPlants(self, row_guid):
         ret= {}
         cur = self.conn.cursor()
         try:
-            sql = "Select p.id,p.name,p.latin_name,p.description,p.watering_period,p.watering_amount,p.link_wiki,p.slika, pu.id from plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.row_guid = '{}'".format(str(row_guid))
+            sql = "Select p.id,p.name,p.latin_name,p.description,p.watering_period,p.watering_amount,p.link_wiki,p.slika, pu.id, pu.last_watering FROM plants AS p INNER JOIN plants_users pu ON p.id = pu.fk_plants INNER JOIN users u ON u.id = pu.fk_users WHERE u.row_guid = '{}'".format(str(row_guid))
             cur.execute(sql)
 
             ret['success'] = True
@@ -100,6 +101,7 @@ class MariaDB_Base:
                 plant['link_wiki'] = res[6]
                 plant['slika'] = res[7]
                 plant['pu_id'] = res[8]
+                plant['last_watering'] = res[9].strftime('%d.%b.%Y')
                 plants.append(plant)
 
             ret['success'] = True
