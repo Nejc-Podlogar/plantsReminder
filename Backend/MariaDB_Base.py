@@ -101,7 +101,7 @@ class MariaDB_Base:
                 plant['link_wiki'] = res[6]
                 plant['slika'] = res[7]
                 plant['pu_id'] = res[8]
-                plant['last_watering'] = res[9].strftime('%Y-%m-%d %H:%M:%S')
+                plant['last_watering'] = res[9].strftime('%d.%b.%Y')
                 plants.append(plant)
 
             ret['success'] = True
