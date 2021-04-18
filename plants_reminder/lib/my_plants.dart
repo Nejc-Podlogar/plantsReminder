@@ -75,12 +75,45 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
         child: Align(
           alignment: Alignment.center,
           child: AlertDialog(
-            title: Text(
-              plant["name"].toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
+            title: Stack(
+              children: <Widget>[
+                Text(
+                  plant["name"].toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                Positioned(
+                  right: -20,
+                  top: -18,
+                  child: Container(
+                    child: FlatButton(
+                        onPressed: () async {
+                          Map<String, dynamic> map = {};
+                          map['id'] = plant['pu_id'].toString();
+
+                          bool res = await Utility.httpPostRequest(
+                              Utility.updateLastWatering, map);
+
+                          if (res == true) {
+                            Navigator.pop(context);
+
+                            setState(() {
+                              loading = true;
+                            });
+                            getItems();
+                          }
+                        },
+                        child: Image(
+                          image:
+                              new AssetImage("assets/images/waterNoBack.png"),
+                        )),
+                    width: 60,
+                    height: 60,
+                  ),
+                ),
+              ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
