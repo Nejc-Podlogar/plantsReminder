@@ -88,27 +88,12 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                   right: -20,
                   top: -18,
                   child: Container(
-                    child: FlatButton(
-                        onPressed: () async {
-                          Map<String, dynamic> map = {};
-                          map['id'] = plant['pu_id'].toString();
-
-                          bool res = await Utility.httpPostRequest(
-                              Utility.updateLastWatering, map);
-
-                          if (res == true) {
-                            Navigator.pop(context);
-
-                            setState(() {
-                              loading = true;
-                            });
-                            getItems();
-                          }
-                        },
-                        child: Image(
-                          image:
-                              new AssetImage("assets/images/waterNoBack.png"),
-                        )),
+                    child: IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                     width: 60,
                     height: 60,
                   ),
@@ -129,7 +114,10 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Latinsko ime: ',
                           style: TextStyle(
                               fontSize: 18,
-                              color: Theme.of(context).accentColor,
+                              color:
+                                  Theme.of(context).accentColor == Colors.green
+                                      ? Colors.black
+                                      : Colors.white,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -145,7 +133,10 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Interval zalivanja: ',
                           style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color:
+                                  Theme.of(context).accentColor == Colors.green
+                                      ? Colors.black
+                                      : Colors.white,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -161,7 +152,10 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Zadnje zalivanje: ',
                           style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color:
+                                  Theme.of(context).accentColor == Colors.green
+                                      ? Colors.black
+                                      : Colors.white,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -176,7 +170,9 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                       "Opis:",
                       style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: Theme.of(context).accentColor == Colors.green
+                              ? Colors.black
+                              : Colors.white,
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
@@ -193,35 +189,63 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
               ],
             ),
             actions: <Widget>[
-              ElevatedButton(
-                onPressed: () async {
-                  Map<String, dynamic> map = {};
-                  map['id'] = plant['pu_id'].toString();
-                  bool res = await Utility.httpPostRequest(
-                      Utility.deleteUserPlant, map);
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  children: [
+                    Container(
+                      alignment: Alignment.bottomLeft,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          Map<String, dynamic> map = {};
+                          map['id'] = plant['pu_id'].toString();
+                          bool res = await Utility.httpPostRequest(
+                              Utility.deleteUserPlant, map);
 
-                  if (res == true) {
-                    map = {};
-                    map['row_guid'] = await DatabaseHelper.getUserGuid();
-                    Navigator.pop(context);
+                          if (res == true) {
+                            map = {};
+                            map['row_guid'] =
+                                await DatabaseHelper.getUserGuid();
+                            Navigator.pop(context);
 
-                    setState(() {
-                      loading = true;
-                    });
-                    getItems();
-                  } else {
-                    print("ni zbrisalo");
-                  }
-                },
-                child: Text('Zbriši'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                            setState(() {
+                              loading = true;
+                            });
+                            getItems();
+                          } else {
+                            print("ni zbrisalo");
+                          }
+                        },
+                        child: Text('Zbriši'),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.red),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        alignment: Alignment.bottomRight,
+                        child: FlatButton(
+                            onPressed: () async {
+                              Map<String, dynamic> map = {};
+                              map['id'] = plant['pu_id'].toString();
+
+                              bool res = await Utility.httpPostRequest(
+                                  Utility.updateLastWatering, map);
+
+                              if (res == true) {
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Image(
+                              image: new AssetImage(
+                                  "assets/images/waterNoBack.png"),
+                              width: 35,
+                              height: 35,
+                            )))
+                  ],
                 ),
-              ),
-              TextButton(
-                onPressed: () => {Navigator.of(context).pop()},
-                child: Text('Zapri'),
-              ),
+              )
             ],
           ),
         ),
@@ -256,7 +280,9 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                   border: Border(
                       bottom: BorderSide(
                           width: 1,
-                          color: Colors.black,
+                          color: Theme.of(context).accentColor == Colors.green
+                              ? Colors.black
+                              : Colors.white,
                           style: BorderStyle.solid)),
                 ),
                 formatButtonTextStyle: TextStyle(
@@ -273,7 +299,10 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
               controller: _nestedTabController,
               indicatorColor: Colors.orange,
               labelColor: Colors.orange,
-              unselectedLabelColor: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
+              unselectedLabelColor:
+                  Theme.of(context).accentColor == Colors.green
+                      ? Colors.black
+                      : Colors.white54,
               isScrollable: true,
               tabs: <Widget>[
                 Tab(
@@ -304,7 +333,10 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                               border: Border(
                                   bottom: BorderSide(
                                       width: 1,
-                                      color: Theme.of(context).accentColor,
+                                      color: Theme.of(context).accentColor ==
+                                              Colors.green
+                                          ? Colors.black
+                                          : Colors.white,
                                       style: BorderStyle.solid)),
                             ),
                             formatButtonTextStyle: TextStyle(
@@ -324,54 +356,45 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                               print('card tapped');
                               _buildPopup(context, _items[index]);
                             },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 100,
-                                  child: Image.memory(
-                                      base64.decode(_items[index]["slika"]),
-                                      width: MediaQuery.of(context).size.width *
-                                              0.50 -
-                                          50),
-                                ),
-                                Container(
-                                  height: 30,
-                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                  child: Text(
-                                    _items[index]["name"],
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0),
+                            child: Container(
+                              width:
+                                  MediaQuery.of(context).size.width * 0.50 - 50,
+                              height: 600,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    child: Image.memory(
+                                        base64.decode(_items[index]["slika"]),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                    0.50 -
+                                                50),
                                   ),
-                                ),
-                                Container(
-                                  height: 30,
-                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                  child: Text(
-                                    _items[index]["watering_period"].toString(),
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(fontSize: 12.0),
+                                  Container(
+                                    height: 30,
+                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                    child: Text(
+                                      _items[index]["name"],
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  height: 20,
-                                  // padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                                  child: Text(
-                                    _items[index]["must_water"]
-                                        ? "Zaliti danes"
-                                        : "Zaliti: " +
-                                            _items[index]["next_watering"],
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        color: _items[index]["must_water"]
-                                            ? Colors.red
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ],
+                                  Container(
+                                    height: 30,
+                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                    child: Text(
+                                      _items[index]["watering_period"]
+                                          .toString(),
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(fontSize: 12.0),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

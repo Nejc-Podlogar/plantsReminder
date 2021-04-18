@@ -32,6 +32,7 @@ dependencies:
   sqflite: ^2.0.0+3
   connectivity: ^3.0.3
   provider:
+  flutter_launcher_icons: ^0.7.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -86,3 +87,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  image_path: "assets/logo/App_logoPNG.png"
+  ios: true
+  android: true
