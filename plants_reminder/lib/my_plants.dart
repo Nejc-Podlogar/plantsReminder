@@ -256,7 +256,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                   border: Border(
                       bottom: BorderSide(
                           width: 1,
-                          color: Colors.black,
+                          color: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
                           style: BorderStyle.solid)),
                 ),
                 formatButtonTextStyle: TextStyle(
@@ -368,7 +368,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                                         fontSize: 12.0,
                                         color: _items[index]["must_water"]
                                             ? Colors.red
-                                            : Colors.black),
+                                            : Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white),
                                   ),
                                 ),
                               ],
