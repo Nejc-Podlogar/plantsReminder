@@ -101,7 +101,7 @@ class MariaDB_Base:
                 plant['link_wiki'] = res[6]
                 plant['slika'] = res[7]
                 plant['pu_id'] = res[8]
-                plant['last_watering'] = res[9].strftime('%d.%b.%Y')
+                plant['last_watering'] = None if res[9] is None else res[9].strftime('%d.%b.%Y')
                 plants.append(plant)
 
             ret['success'] = True
@@ -150,7 +150,7 @@ class MariaDB_Base:
             return ret
 
 
-    def newUserPlant(self, row_guid, plant_id):
+    def newUserPlant(self, row_guid, plant_id, last_watering):
         ret = {}
         cur = self.conn.cursor()
         
@@ -166,7 +166,7 @@ class MariaDB_Base:
 
             print(res[0])
 
-            sql = "INSERT INTO plants_users (fk_plants, fk_users) VALUES ({}, {});".format(int(plant_id), int(res[0][0]))
+            sql = "INSERT INTO plants_users (fk_plants, fk_users, last_watering) VALUES ({}, {}, '{}');".format(int(plant_id), int(res[0][0]), last_watering)
             cur.execute(sql)
             self.conn.commit()
 

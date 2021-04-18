@@ -121,9 +121,13 @@ class _MainPage extends State<MainPage> {
                       padding: EdgeInsets.only(top: 20),
                       child: OutlinedButton(
                         onPressed: () async {
+                          print(dateController.text);
                           Map<String, dynamic> map = {};
                           map['row_guid'] = await DatabaseHelper.getUserGuid();
                           map['plant_id'] = _choseValue['id'].toString();
+                          map['last_watering'] = dateController.text.isEmpty
+                              ? null
+                              : dateController.text;
                           bool success = await Utility.httpPostRequest(
                               Utility.newUserPlant, map);
 

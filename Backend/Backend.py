@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from MariaDB_Base import MariaDB_Base
 from werkzeug.serving import WSGIRequestHandler
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -69,7 +70,7 @@ def all_user_plants():
     ret = {}
     try:
         content = request.get_json()
-        print('content: {}'.format(content))
+        #print('content: {}'.format(content))
         row_guid = content['row_guid']
 
         if (row_guid is None):
@@ -118,16 +119,25 @@ def newUserPlant():
         content = request.get_json()
         row_guid = content['row_guid']
         plant_id = content['plant_id']
+        last_watering = content['last_watering']
 
         if (row_guid is None or plant_id is None):
             ret['success'] = False
             return jsonify(ret)
 
+        print(last_watering)
+        if (last_watering is None):
+            print("isNone")
+            last_watering = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            last_watering = datetime.datetime.strptime(last_watering, "%Y-%m-%d").strftime('%Y-%m-%d %H:%M:%S')
+
+
         if (base.connect_to_database() is False):
             ret['success'] = False
             return jsonify(ret)
 
-        ret = base.newUserPlant(row_guid, plant_id)
+        ret = base.newUserPlant(row_guid, plant_id, last_watering)
 
         base.close_connection()
 
