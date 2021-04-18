@@ -75,12 +75,45 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
         child: Align(
           alignment: Alignment.center,
           child: AlertDialog(
-            title: Text(
-              plant["name"].toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
+            title: Stack(
+              children: <Widget>[
+                Text(
+                  plant["name"].toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                Positioned(
+                  right: -20,
+                  top: -18,
+                  child: Container(
+                    child: FlatButton(
+                        onPressed: () async {
+                          Map<String, dynamic> map = {};
+                          map['id'] = plant['pu_id'].toString();
+
+                          bool res = await Utility.httpPostRequest(
+                              Utility.updateLastWatering, map);
+
+                          if (res == true) {
+                            Navigator.pop(context);
+
+                            setState(() {
+                              loading = true;
+                            });
+                            getItems();
+                          }
+                        },
+                        child: Image(
+                          image:
+                              new AssetImage("assets/images/waterNoBack.png"),
+                        )),
+                    width: 60,
+                    height: 60,
+                  ),
+                ),
+              ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -96,7 +129,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Latinsko ime: ',
                           style: TextStyle(
                               fontSize: 18,
-                              color: Colors.black,
+                              color: Theme.of(context).accentColor,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -240,7 +273,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
               controller: _nestedTabController,
               indicatorColor: Colors.orange,
               labelColor: Colors.orange,
-              unselectedLabelColor: Colors.black54,
+              unselectedLabelColor: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
               isScrollable: true,
               tabs: <Widget>[
                 Tab(
@@ -271,7 +304,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                               border: Border(
                                   bottom: BorderSide(
                                       width: 1,
-                                      color: Colors.black,
+                                      color: Theme.of(context).accentColor,
                                       style: BorderStyle.solid)),
                             ),
                             formatButtonTextStyle: TextStyle(

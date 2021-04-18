@@ -138,7 +138,7 @@ class _Profile extends State<Profile> {
                         child: CircleAvatar(
                           radius: 55,
                           //backgroundColor: Color(0xffFDCF09),
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Theme.of(context).accentColor,
                           child: _image != null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
@@ -185,7 +185,7 @@ class _Profile extends State<Profile> {
                     SizedBox(height: 5.0),
                     Text(
                       "$username",
-                      style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20.0),
@@ -201,7 +201,7 @@ class _Profile extends State<Profile> {
                     SizedBox(height: 5.0),
                     Text(
                       "$email",
-                      style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20.0),
@@ -217,7 +217,7 @@ class _Profile extends State<Profile> {
                     SizedBox(height: 5.0),
                     Text(
                       "$numb_of_plants",
-                      style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
                   ],
