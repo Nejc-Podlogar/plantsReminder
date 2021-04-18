@@ -101,7 +101,8 @@ class MariaDB_Base:
                 plant['link_wiki'] = res[6]
                 plant['slika'] = res[7]
                 plant['pu_id'] = res[8]
-                plant['last_watering'] = None if res[9] is None else res[9].strftime('%d.%b.%Y')
+                plant['last_watering'] = res[9].strftime('%d.%b.%Y')
+                plant['must_water'] = True if (datetime.datetime.strptime(res[9].strftime('%d.%b.%Y'), '%d.%b.%Y') + datetime.timedelta(days=int(res[4]))).date() <= datetime.datetime.now().date() else False
                 plants.append(plant)
 
             ret['success'] = True

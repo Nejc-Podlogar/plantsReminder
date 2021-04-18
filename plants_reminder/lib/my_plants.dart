@@ -129,7 +129,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Latinsko ime: ',
                           style: TextStyle(
                               fontSize: 18,
-                              color: Colors.black,
+                              color: Theme.of(context).accentColor,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -273,7 +273,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
               controller: _nestedTabController,
               indicatorColor: Colors.orange,
               labelColor: Colors.orange,
-              unselectedLabelColor: Colors.black54,
+              unselectedLabelColor: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
               isScrollable: true,
               tabs: <Widget>[
                 Tab(
@@ -304,7 +304,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                               border: Border(
                                   bottom: BorderSide(
                                       width: 1,
-                                      color: Colors.black,
+                                      color: Theme.of(context).accentColor,
                                       style: BorderStyle.solid)),
                             ),
                             formatButtonTextStyle: TextStyle(
