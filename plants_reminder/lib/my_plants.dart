@@ -85,34 +85,15 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                   ),
                 ),
                 Positioned(
-                  right: -20,
-                  top: -18,
-                  child: Container(
-                    child: FlatButton(
-                        onPressed: () async {
-                          Map<String, dynamic> map = {};
-                          map['id'] = plant['pu_id'].toString();
-
-                          bool res = await Utility.httpPostRequest(
-                              Utility.updateLastWatering, map);
-
-                          if (res == true) {
-                            Navigator.pop(context);
-
-                            setState(() {
-                              loading = true;
-                            });
-                            getItems();
-                          }
-                        },
-                        child: Image(
-                          image:
-                              new AssetImage("assets/images/waterNoBack.png"),
-                        )),
-                    width: 60,
-                    height: 60,
-                  ),
-                ),
+                    right: -15,
+                    top: -13,
+                    child: IconButton(
+                      icon: const Icon(Icons.close),
+                      tooltip: 'Zapri izbrano rastlino',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ))
               ],
             ),
             content: Column(
@@ -193,35 +174,73 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
               ],
             ),
             actions: <Widget>[
-              ElevatedButton(
-                onPressed: () async {
-                  Map<String, dynamic> map = {};
-                  map['id'] = plant['pu_id'].toString();
-                  bool res = await Utility.httpPostRequest(
-                      Utility.deleteUserPlant, map);
+              Stack(
+                children: <Widget>[
+                  Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: Container(
+                        width: 100,
+                        height: 20,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Map<String, dynamic> map = {};
+                            map['id'] = plant['pu_id'].toString();
+                            bool res = await Utility.httpPostRequest(
+                                Utility.deleteUserPlant, map);
 
-                  if (res == true) {
-                    map = {};
-                    map['row_guid'] = await DatabaseHelper.getUserGuid();
-                    Navigator.pop(context);
+                            if (res == true) {
+                              map = {};
+                              map['row_guid'] =
+                                  await DatabaseHelper.getUserGuid();
+                              Navigator.pop(context);
 
-                    setState(() {
-                      loading = true;
-                    });
-                    getItems();
-                  } else {
-                    print("ni zbrisalo");
-                  }
-                },
-                child: Text('Zbriši'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                ),
-              ),
-              TextButton(
-                onPressed: () => {Navigator.of(context).pop()},
-                child: Text('Zapri'),
-              ),
+                              setState(() {
+                                loading = true;
+                              });
+                              getItems();
+                            } else {
+                              print("ni zbrisalo");
+                            }
+                          },
+                          child: Text('Zbriši'),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.red),
+                          ),
+                        ),
+                      )),
+                  Positioned(
+                    right: -20,
+                    top: -15,
+                    child: Container(
+                      child: FlatButton(
+                          onPressed: () async {
+                            Map<String, dynamic> map = {};
+                            map['id'] = plant['pu_id'].toString();
+
+                            bool res = await Utility.httpPostRequest(
+                                Utility.updateLastWatering, map);
+
+                            if (res == true) {
+                              Navigator.pop(context);
+
+                              setState(() {
+                                loading = true;
+                              });
+                              getItems();
+                            }
+                          },
+                          child: Image(
+                            image:
+                                new AssetImage("assets/images/waterNoBack.png"),
+                          )),
+                      width: 40,
+                      height: 40,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
@@ -273,7 +292,10 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
               controller: _nestedTabController,
               indicatorColor: Colors.orange,
               labelColor: Colors.orange,
-              unselectedLabelColor: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
+              unselectedLabelColor:
+                  Theme.of(context).accentColor == Colors.green
+                      ? Colors.black
+                      : Colors.white,
               isScrollable: true,
               tabs: <Widget>[
                 Tab(
