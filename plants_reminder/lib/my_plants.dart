@@ -75,12 +75,45 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
         child: Align(
           alignment: Alignment.center,
           child: AlertDialog(
-            title: Text(
-              plant["name"].toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
+            title: Stack(
+              children: <Widget>[
+                Text(
+                  plant["name"].toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                Positioned(
+                  right: -20,
+                  top: -18,
+                  child: Container(
+                    child: FlatButton(
+                        onPressed: () async {
+                          Map<String, dynamic> map = {};
+                          map['id'] = plant['pu_id'].toString();
+
+                          bool res = await Utility.httpPostRequest(
+                              Utility.updateLastWatering, map);
+
+                          if (res == true) {
+                            Navigator.pop(context);
+
+                            setState(() {
+                              loading = true;
+                            });
+                            getItems();
+                          }
+                        },
+                        child: Image(
+                          image:
+                              new AssetImage("assets/images/waterNoBack.png"),
+                        )),
+                    width: 60,
+                    height: 60,
+                  ),
+                ),
+              ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -291,45 +324,54 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                               print('card tapped');
                               _buildPopup(context, _items[index]);
                             },
-                            child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 0.50 - 50,
-                              height: 600,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    child: Image.memory(
-                                        base64.decode(_items[index]["slika"]),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                    0.50 -
-                                                50),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  child: Image.memory(
+                                      base64.decode(_items[index]["slika"]),
+                                      width: MediaQuery.of(context).size.width *
+                                              0.50 -
+                                          50),
+                                ),
+                                Container(
+                                  height: 30,
+                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                  child: Text(
+                                    _items[index]["name"],
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
                                   ),
-                                  Container(
-                                    height: 30,
-                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                    child: Text(
-                                      _items[index]["name"],
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0),
-                                    ),
+                                ),
+                                Container(
+                                  height: 30,
+                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                  child: Text(
+                                    _items[index]["watering_period"].toString(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 12.0),
                                   ),
-                                  Container(
-                                    height: 30,
-                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                    child: Text(
-                                      _items[index]["watering_period"]
-                                          .toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 12.0),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                ),
+                                Container(
+                                  height: 20,
+                                  // padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                                  child: Text(
+                                    _items[index]["must_water"]
+                                        ? "Zaliti danes"
+                                        : "Zaliti: " +
+                                            _items[index]["next_watering"],
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: _items[index]["must_water"]
+                                            ? Colors.red
+                                            : Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );

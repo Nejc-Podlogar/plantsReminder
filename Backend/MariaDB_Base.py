@@ -5,8 +5,8 @@ import hashlib
 
 class MariaDB_Base:
     def __init__(self):
-        #self.port = 3306
-        self.port = 5342
+        self.port = 3306
+        #self.port = 5342
         self.host = "127.0.0.1"
         self.conn = None
 
@@ -14,8 +14,8 @@ class MariaDB_Base:
         try:
             self.conn = mariadb.connect(
                 user="root",
-                #password="ynpXyi2NmKARwX",
-                password="admin123",
+                password="ynpXyi2NmKARwX",
+                #password="admin123",
                 host=self.host,
                 port=self.port,
                 database="plantsreminder"
@@ -102,7 +102,11 @@ class MariaDB_Base:
                 plant['slika'] = res[7]
                 plant['pu_id'] = res[8]
                 plant['last_watering'] = res[9].strftime('%d.%b.%Y')
-                plant['must_water'] = True if (datetime.datetime.strptime(res[9].strftime('%d.%b.%Y'), '%d.%b.%Y') + datetime.timedelta(days=int(res[4]))).date() <= datetime.datetime.now().date() else False
+
+                next_watering = datetime.datetime.strptime(res[9].strftime('%d.%b.%Y'), '%d.%b.%Y') + datetime.timedelta(days=int(res[4]))
+
+                plant['must_water'] = True if next_watering.date() <= datetime.datetime.now().date() else False
+                plant['next_watering'] = next_watering.strftime('%d.%b.%Y')
                 plants.append(plant)
 
             ret['success'] = True
