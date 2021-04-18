@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:plants_reminder/all_plants.dart';
-import 'package:plants_reminder/my_plants.dart';
 import 'package:plants_reminder/profile.dart';
 import 'package:plants_reminder/settings.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -10,6 +9,7 @@ import 'check_connectivity.dart';
 import 'utility.dart';
 import 'main.dart';
 import 'locale_database.dart';
+import 'my_plants.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key key}) : super(key: key);
@@ -19,6 +19,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
+  final GlobalKey<MyPlantsState> _key = GlobalKey();
+  List<Widget> _navigationItems;
+
   int _selectedIndex = 1;
   dynamic _choseValue;
   final dateController = TextEditingController();
@@ -42,6 +45,11 @@ class _MainPage extends State<MainPage> {
   @override
   void initState() {
     CheckConnectivity.checkConnectivity();
+    _navigationItems = <Widget>[
+      MyPlants(key: _key),
+      AllPlants(),
+      Profile(),
+    ];
     super.initState();
   }
 
@@ -50,11 +58,9 @@ class _MainPage extends State<MainPage> {
     dateController.dispose();
   }
 
-  static const List<Widget> _navigationItems = <Widget>[
-    MyPlants(),
-    AllPlants(),
-    Profile(),
-  ];
+  callSetState() {
+    setState(() {});
+  }
 
   Future _newPlantPopup(BuildContext context, List<dynamic> plants) async {
     _choseValue = null;
@@ -118,45 +124,47 @@ class _MainPage extends State<MainPage> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: OutlinedButton(
-                        onPressed: () async {
-                          print(dateController.text);
-                          Map<String, dynamic> map = {};
-                          map['row_guid'] = await DatabaseHelper.getUserGuid();
-                          map['plant_id'] = _choseValue['id'].toString();
-                          map['last_watering'] = dateController.text.isEmpty
-                              ? null
-                              : dateController.text;
-                          bool success = await Utility.httpPostRequest(
-                              Utility.newUserPlant, map);
+                    padding: EdgeInsets.only(top: 20),
+                    child: OutlinedButton(
+                      onPressed: () async {
+                        print(dateController.text);
+                        Map<String, dynamic> map = {};
+                        map['row_guid'] = await DatabaseHelper.getUserGuid();
+                        map['plant_id'] = _choseValue['id'].toString();
+                        map['last_watering'] = dateController.text.isEmpty
+                            ? null
+                            : dateController.text;
+                        bool success = await Utility.httpPostRequest(
+                            Utility.newUserPlant, map);
 
-                          if (success) {
-                            print("New plant added");
-                            Navigator.pop(context);
+                        if (success) {
+                          print("New plant added");
+                          Navigator.pop(context);
 
-                            setState(() {});
+                          setState(() {});
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Roža dodana."),
-                                duration: Duration(seconds: 3),
-                              ),
-                            );
-                          } else {
-                            print("plant not added");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Roža dodana."),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        } else {
+                          print("plant not added");
 
-                            setState(() {});
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Roža ni bila dodana."),
-                                duration: Duration(seconds: 3),
-                              ),
-                            );
-                          }
-                        },
-                        child: Text("Dodaj rožo"),
-                      ))
+                          setState(() {});
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Roža ni bila dodana."),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        }
+                        _key.currentState.getNewItemsFromParretn();
+                      },
+                      child: Text("Dodaj rožo"),
+                    ),
+                  ),
                 ],
               );
             },

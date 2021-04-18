@@ -13,10 +13,10 @@ class MyPlants extends StatefulWidget {
   const MyPlants({Key key}) : super(key: key);
 
   @override
-  State createState() => _MyPlants();
+  State createState() => MyPlantsState();
 }
 
-class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
+class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
   CalendarController _controller;
   TabController _nestedTabController;
   List<dynamic> _items;
@@ -39,7 +39,14 @@ class _MyPlants extends State<MyPlants> with TickerProviderStateMixin {
     _controller.dispose();
   }
 
-  void getItems() async {
+  void getNewItemsFromParretn() async {
+    setState(() {
+      loading = true;
+    });
+    await getItems();
+  }
+
+  Future<void> getItems() async {
     Map<String, dynamic> map = {};
     // map['row_guid'] = "6fa459ea-ee8a-3ca4-894e-db77e160355e";
     map['row_guid'] = await DatabaseHelper.getUserGuid();
