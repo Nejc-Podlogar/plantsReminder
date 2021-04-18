@@ -96,7 +96,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Latinsko ime: ',
                           style: TextStyle(
                               fontSize: 18,
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -112,7 +112,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Interval zalivanja: ',
                           style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -128,7 +128,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                           text: 'Zadnje zalivanje: ',
                           style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                         TextSpan(
@@ -143,7 +143,7 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                       "Opis:",
                       style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: Theme.of(context).accentColor == Colors.green ? Colors.black : Colors.white,
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
