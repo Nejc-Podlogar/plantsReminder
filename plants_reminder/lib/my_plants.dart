@@ -291,45 +291,54 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                               print('card tapped');
                               _buildPopup(context, _items[index]);
                             },
-                            child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 0.50 - 50,
-                              height: 600,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    child: Image.memory(
-                                        base64.decode(_items[index]["slika"]),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                    0.50 -
-                                                50),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  child: Image.memory(
+                                      base64.decode(_items[index]["slika"]),
+                                      width: MediaQuery.of(context).size.width *
+                                              0.50 -
+                                          50),
+                                ),
+                                Container(
+                                  height: 30,
+                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                  child: Text(
+                                    _items[index]["name"],
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
                                   ),
-                                  Container(
-                                    height: 30,
-                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                    child: Text(
-                                      _items[index]["name"],
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0),
-                                    ),
+                                ),
+                                Container(
+                                  height: 30,
+                                  padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                                  child: Text(
+                                    _items[index]["watering_period"].toString(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 12.0),
                                   ),
-                                  Container(
-                                    height: 30,
-                                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                                    child: Text(
-                                      _items[index]["watering_period"]
-                                          .toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 12.0),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                ),
+                                Container(
+                                  height: 20,
+                                  // padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                                  child: Text(
+                                    _items[index]["must_water"]
+                                        ? "Zaliti danes"
+                                        : "Zaliti: " +
+                                            _items[index]["next_watering"],
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: _items[index]["must_water"]
+                                            ? Colors.red
+                                            : Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
