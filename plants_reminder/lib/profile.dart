@@ -96,14 +96,14 @@ class _Profile extends State<Profile> {
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.photo_library),
-                    title: new Text('Photo Library'),
+                    title: new Text('Galerija'),
                     onTap: () {
                       _imgFromGallery();
                       Navigator.of(context).pop();
                     }),
                 new ListTile(
                   leading: new Icon(Icons.photo_camera),
-                  title: new Text('Camera'),
+                  title: new Text('Kamera'),
                   onTap: () {
                     _imgFromCamera();
                     Navigator.of(context).pop();
@@ -173,7 +173,7 @@ class _Profile extends State<Profile> {
                     //),
                     SizedBox(height: 30.0),
                     Text(
-                      "USERNAME:",
+                      "UPORABNIŠKO IME:",
                       style: TextStyle(
                         color: Colors.black,
                         letterSpacing: 2.0,
@@ -190,7 +190,7 @@ class _Profile extends State<Profile> {
                     ),
                     SizedBox(height: 20.0),
                     Text(
-                      "E-MAIL:",
+                      "E-NASLOV:",
                       style: TextStyle(
                           color: Colors.black,
                           letterSpacing: 2.0,
@@ -206,7 +206,7 @@ class _Profile extends State<Profile> {
                     ),
                     SizedBox(height: 20.0),
                     Text(
-                      "NUMBER OF PLANTS:",
+                      "ŠTEVILO RASTLIN:",
                       style: TextStyle(
                           color: Colors.black,
                           letterSpacing: 2.0,

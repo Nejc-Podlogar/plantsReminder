@@ -26,8 +26,8 @@ class _RegisterState extends State<Register> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('ERROR'),
-            content: const Text('Please fill in required fields!'),
+            title: Text('NAPAKA'),
+            content: const Text('Izpolniti je potrebno vsa polja!'),
             actions: [
               TextButton(
                 child: Text('OK'),
@@ -45,8 +45,8 @@ class _RegisterState extends State<Register> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('ERROR'),
-            content: const Text('Passwords must match!'),
+            title: Text('NAPAKA'),
+            content: const Text('Gesli se morata ujemati!'),
             actions: [
               TextButton(
                 child: Text('OK'),
@@ -154,7 +154,7 @@ class _RegisterState extends State<Register> {
                       Expanded(
                         child: Container(
                           child: Center(
-                            child: Text("Create Account",
+                            child: Text("Ustvari Račun",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 50,
@@ -192,7 +192,7 @@ class _RegisterState extends State<Register> {
                                     Icons.email,
                                     color: Colors.white,
                                   ),
-                                  labelText: 'Email',
+                                  labelText: 'E-naslov',
                                   labelStyle: TextStyle(color: Colors.white),
                                 ),
                                 style: TextStyle(color: Colors.white),
@@ -225,7 +225,7 @@ class _RegisterState extends State<Register> {
                                     Icons.account_box_rounded,
                                     color: Colors.white,
                                   ),
-                                  labelText: 'Username',
+                                  labelText: 'Uporabniško ime',
                                   labelStyle: TextStyle(color: Colors.white),
                                 ),
                                 style: TextStyle(color: Colors.white),
@@ -259,7 +259,7 @@ class _RegisterState extends State<Register> {
                                     Icons.lock,
                                     color: Colors.white,
                                   ),
-                                  labelText: 'Password',
+                                  labelText: 'Geslo',
                                   labelStyle: TextStyle(color: Colors.white),
                                 ),
                                 style: TextStyle(color: Colors.white),
@@ -293,7 +293,7 @@ class _RegisterState extends State<Register> {
                                     Icons.lock,
                                     color: Colors.white,
                                   ),
-                                  labelText: 'Confirm Password',
+                                  labelText: 'Potrdi geslo',
                                   labelStyle: TextStyle(color: Colors.white),
                                 ),
                                 style: TextStyle(color: Colors.white),
@@ -310,7 +310,7 @@ class _RegisterState extends State<Register> {
                                     primary: Colors.green[400],
                                     padding: EdgeInsets.all(10)),
                                 child: Text(
-                                  "Sign Up",
+                                  "Registriraj me",
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),

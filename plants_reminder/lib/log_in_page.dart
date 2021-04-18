@@ -27,8 +27,8 @@ class _LogInState extends State<LogIn> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('ERROR'),
-            content: const Text('Please fill in required fields!'),
+            title: Text('NAPAKA'),
+            content: const Text('Izpolniti je potrebno vsa polja!'),
             actions: [
               TextButton(
                 child: Text('OK'),
@@ -75,7 +75,7 @@ class _LogInState extends State<LogIn> {
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Uporanik ni najden."),
+              content: Text("Uporabnik ni najden."),
               duration: Duration(seconds: 3),
             ),
           );
@@ -175,7 +175,7 @@ class _LogInState extends State<LogIn> {
                                       Icons.account_box_rounded,
                                       color: Colors.white,
                                     ),
-                                    labelText: 'Email or Username',
+                                    labelText: 'Uporabniško ime',
                                     labelStyle: TextStyle(color: Colors.white),
                                   ),
                                   style: TextStyle(color: Colors.white),
@@ -209,7 +209,7 @@ class _LogInState extends State<LogIn> {
                                       Icons.lock,
                                       color: Colors.white,
                                     ),
-                                    labelText: 'Password',
+                                    labelText: 'Geslo',
                                     labelStyle: TextStyle(color: Colors.white),
                                   ),
                                   style: TextStyle(color: Colors.white),
@@ -228,7 +228,7 @@ class _LogInState extends State<LogIn> {
                                   child: Padding(
                                     padding: EdgeInsets.all(20),
                                     child: Text(
-                                      "No account yet? Click here or swipe left to register!",
+                                      "Še nimaš računa? Klikni tukaj ali podrsaj levo za registracijo!",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
@@ -245,7 +245,7 @@ class _LogInState extends State<LogIn> {
                                       primary: Colors.green[400],
                                       padding: EdgeInsets.all(10)),
                                   child: Text(
-                                    "Log in",
+                                    "Prijava",
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),

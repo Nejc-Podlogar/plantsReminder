@@ -37,6 +37,7 @@ class _PlantsWidgetDetailed extends State<PlantsWidgetDetailed> {
                   style: TextStyle(
                     fontSize: 40,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
