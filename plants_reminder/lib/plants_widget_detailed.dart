@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:plants_reminder/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
 class PlantsWidgetDetailed extends StatefulWidget {
   const PlantsWidgetDetailed({Key key, this.plant}) : super(key: key);
@@ -13,7 +14,7 @@ class PlantsWidgetDetailed extends StatefulWidget {
 }
 
 class _PlantsWidgetDetailed extends State<PlantsWidgetDetailed> {
-  _launchWikiPage(String url) async {
+  Future<void> _launchWikiPage(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {

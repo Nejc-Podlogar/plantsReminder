@@ -5,8 +5,8 @@ import hashlib
 
 class MariaDB_Base:
     def __init__(self):
-        self.port = 3306
-        #self.port = 5342
+        #self.port = 3306
+        self.port = 5342
         self.host = "127.0.0.1"
         self.conn = None
 
@@ -14,8 +14,8 @@ class MariaDB_Base:
         try:
             self.conn = mariadb.connect(
                 user="root",
-                password="ynpXyi2NmKARwX",
-                #password="admin123",
+                #password="ynpXyi2NmKARwX",
+                password="admin123",
                 host=self.host,
                 port=self.port,
                 database="plantsreminder"
