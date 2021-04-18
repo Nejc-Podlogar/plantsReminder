@@ -71,8 +71,8 @@ class _PlantsWidgetDetailed extends State<PlantsWidgetDetailed> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                _launchWikiPage(widget.plant['link_wiki'].toString());
+              onPressed: () async {
+                await _launchWikiPage(widget.plant['link_wiki'].toString());
               },
               child: Text("Wikipedia"),
             ),

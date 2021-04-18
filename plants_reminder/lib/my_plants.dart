@@ -34,11 +34,6 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
     getItems();
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-  }
-
   void getNewItemsFromParretn() async {
     setState(() {
       loading = true;
@@ -100,93 +95,95 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.memory(base64.decode(plant["slika"])),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: RichText(
-                      text: TextSpan(
-                          text: 'Latinsko ime: ',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color:
-                                  Theme.of(context).accentColor == Colors.green
-                                      ? Colors.black
-                                      : Colors.white,
-                              fontWeight: FontWeight.bold),
-                          children: <TextSpan>[
-                        TextSpan(
-                            text: plant["latin_name"],
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 16))
-                      ])),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: RichText(
-                      text: TextSpan(
-                          text: 'Interval zalivanja: ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color:
-                                  Theme.of(context).accentColor == Colors.green
-                                      ? Colors.black
-                                      : Colors.white,
-                              fontWeight: FontWeight.bold),
-                          children: <TextSpan>[
-                        TextSpan(
-                            text: plant["watering_period"].toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 14))
-                      ])),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: RichText(
-                      text: TextSpan(
-                          text: 'Zadnje zalivanje: ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color:
-                                  Theme.of(context).accentColor == Colors.green
-                                      ? Colors.black
-                                      : Colors.white,
-                              fontWeight: FontWeight.bold),
-                          children: <TextSpan>[
-                        TextSpan(
-                            text: plant["watering_amount"].toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 14))
-                      ])),
-                ),
-                Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Text(
-                      "Opis:",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).accentColor == Colors.green
-                              ? Colors.black
-                              : Colors.white,
-                          fontWeight: FontWeight.bold),
-                    )),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(plant["description"]),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: OutlinedButton(
-                    child: Text("Wikipedija"),
-                    onPressed: () => _launchWikipedia(plant["link_wiki"]),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.memory(base64.decode(plant["slika"])),
                   ),
-                ),
-              ],
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'Latinsko ime: ',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).accentColor ==
+                                        Colors.green
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                          TextSpan(
+                              text: plant["latin_name"],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 16))
+                        ])),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'Interval zalivanja: ',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).accentColor ==
+                                        Colors.green
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                          TextSpan(
+                              text: plant["watering_period"].toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 14))
+                        ])),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'Količina zalivanja: ',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).accentColor ==
+                                        Colors.green
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                          TextSpan(
+                              text: plant["watering_amount"].toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 14))
+                        ])),
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: Text(
+                        "Opis:",
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Theme.of(context).accentColor == Colors.green
+                                ? Colors.black
+                                : Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: Text(plant["description"]),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: OutlinedButton(
+                      child: Text("Wikipedija"),
+                      onPressed: () => _launchWikipedia(plant["link_wiki"]),
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: <Widget>[
               SizedBox(
@@ -392,7 +389,26 @@ class MyPlantsState extends State<MyPlants> with TickerProviderStateMixin {
                                       textAlign: TextAlign.left,
                                       style: TextStyle(fontSize: 12.0),
                                     ),
-                                  )
+                                  ),
+                                  Container(
+                                    height: 20,
+                                    // padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                                    child: Text(
+                                      _items[index]["must_water"]
+                                          ? "Zaliti danes"
+                                          : "Zaliti: " +
+                                              _items[index]["next_watering"],
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: _items[index]["must_water"]
+                                              ? Colors.red
+                                              : Theme.of(context).accentColor ==
+                                                      Colors.green
+                                                  ? Colors.black
+                                                  : Colors.white),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
