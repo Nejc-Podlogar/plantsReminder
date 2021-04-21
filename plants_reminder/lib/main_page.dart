@@ -205,17 +205,29 @@ class _MainPage extends State<MainPage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home,
-                  color: _selectedIndex == 0 ? Theme.of(context).accentColor : Colors.black),
+                  color: _selectedIndex == 0
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.mail,
-                  color: _selectedIndex == 1 ? Theme.of(context).accentColor : Colors.black),
+              icon: Icon(Icons.eco,
+                  color: _selectedIndex == 1
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
               label: 'Messages',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person,
-                  color: _selectedIndex == 2 ? Theme.of(context).accentColor : Colors.black),
+                  color: _selectedIndex == 2
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
               label: 'Profile',
             ),
           ],

@@ -175,7 +175,9 @@ class _Profile extends State<Profile> {
                     Text(
                       "UPORABNIŠKO IME:",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         letterSpacing: 2.0,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -185,14 +187,17 @@ class _Profile extends State<Profile> {
                     SizedBox(height: 5.0),
                     Text(
                       "$username",
-                      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 16.0),
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor, fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20.0),
                     Text(
                       "E-NASLOV:",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                           letterSpacing: 2.0,
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0),
@@ -201,14 +206,17 @@ class _Profile extends State<Profile> {
                     SizedBox(height: 5.0),
                     Text(
                       "$email",
-                      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 16.0),
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor, fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20.0),
                     Text(
                       "ŠTEVILO RASTLIN:",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                           letterSpacing: 2.0,
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0),
@@ -217,7 +225,8 @@ class _Profile extends State<Profile> {
                     SizedBox(height: 5.0),
                     Text(
                       "$numb_of_plants",
-                      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 16.0),
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor, fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
                   ],

@@ -31,14 +31,14 @@ class _ChangePassword extends State<ChangePassword> {
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(children: [
           Text(
-            "Change Password",
+            "Spremeni geslo",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
           ),
           SizedBox(
             height: 40,
           ),
           Text(
-            "Current Password",
+            "Trenutno geslo",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           SizedBox(
@@ -58,7 +58,7 @@ class _ChangePassword extends State<ChangePassword> {
             height: 20,
           ),
           Text(
-            "New Password",
+            "Novo geslo",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           SizedBox(
@@ -78,7 +78,7 @@ class _ChangePassword extends State<ChangePassword> {
             height: 20,
           ),
           Text(
-            "Confirm Password",
+            "Potrdi geslo",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           SizedBox(
@@ -105,7 +105,7 @@ class _ChangePassword extends State<ChangePassword> {
             onPressed: () async {
               submitPasswordChange();
             },
-            child: Text("Change password"),
+            child: Text("Spremeni geslo"),
             // textColor: Theme.of(context).scaffoldBackgroundColor,
           )
         ]),
